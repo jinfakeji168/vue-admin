@@ -1,203 +1,148 @@
+<div align="center"> <a href="https://github.com/kailong321200875/vue-element-plus-admin"> <img width="100" src="./public/logo.png"> </a> <br> <br>
 
- <div >
-  🔥🔥🔥 2024.12.20-12.30
-  ，掘金2024年度人气创作者打榜中，麻烦大家投票支持一下我们，感谢！投票地址：
-  <a href="https://activity.juejin.cn/rank/2024/writer/4187394044331261"  target="_blank">
-  https://activity.juejin.cn/rank/2024/writer/4187394044331261
-  </a>
+[![license](https://img.shields.io/github/license/kailong321200875/vue-element-plus-admin.svg)](LICENSE) [![repo-size](https://img.shields.io/github/repo-size/kailong321200875/vue-element-plus-admin.svg)](repo-size) [![last-commit](https://img.shields.io/github/last-commit/kailong321200875/vue-element-plus-admin.svg)](last-commit) [![stars](https://img.shields.io/github/stars/kailong321200875/vue-element-plus-admin.svg)](stars) [![forks](https://img.shields.io/github/forks/kailong321200875/vue-element-plus-admin.svg)](forks) [![release](https://img.shields.io/github/release/kailong321200875/vue-element-plus-admin.svg)](release) [![watchers](https://img.shields.io/github/watchers/kailong321200875/vue-element-plus-admin.svg)](watchers)
+
+<h1>vue-element-plus-admin</h1>
 </div>
 
+**English** | [中文](./README.zh-CN.md)
 
-<div align="center">
-  <img alt="vue3-element-admin" width="80" height="80" src="./src/assets/logo.png">
-  <h1>vue3-element-admin</h1>
+## Introduction
 
-  <img src="https://img.shields.io/badge/Vue-3.5.11-brightgreen.svg"/>
-  <img src="https://img.shields.io/badge/Vite-5.4.8-green.svg"/>
-  <img src="https://img.shields.io/badge/Element Plus-2.8.5-blue.svg"/>
-  <img src="https://img.shields.io/badge/license-MIT-green.svg"/>
-  <a href="https://gitee.com/youlaiorg" target="_blank">
-      <img src="https://img.shields.io/badge/Author-有来开源组织-orange.svg"/>
-  </a>
-</div>
+vue-element-plus-admin is a free and open source middle and background template based on `element-plus`. Developed using the latest mainstream technologies such as `vue3`, `vite` and `typescript`, the out of the box middle and background front-end solution can be used as the starting template of the project and learning reference. And always pay attention to the latest technological trends and update them as soon as possible.
 
-![](https://foruda.gitee.com/images/1708618984641188532/a7cca095_716974.png "rainbow.png")
+vue-element-plus-admin is positioned as a background integration scheme, which is not suitable for secondary development as a basic template. Because it integrates many functions that you may not use, it will cause a lot of code redundancy. If your project doesn't pay attention to this problem, you can also directly carry out secondary development based on it.
 
+If you need a basic template, please switch to the `mini` branch. `mini` simply integrates some common layout functions such as layout and dynamic menu, which is more suitable for developers to carry out secondary development.
 
-<div align="center">
-  <a target="_blank" href="http://vue3.youlai.tech">🔍 在线预览</a> |  <a target="_blank" href="https://juejin.cn/post/7228990409909108793">📖 阅读文档</a> | <a href="./README.en-US.md">🌐English
-</div>
+## Feature
 
+- **State of The Art Development**：Use front-end front-end technology development such as Vue3/vite4
+- **TypeScript**: Application-level JavaScript language
+- **Theming**: Configurable themes
+- **International**：Built-in complete internationalization program
+- **Mock Server** Built-in mock data scheme
+- **Authority** Built-in complete dynamic routing permission generation scheme.
+- **Component** Multiple commonly used components are encapsulated twice
+- **Examples** Built-in rich examples
 
+## Preview
 
-## 项目简介
+- [vue-element-plus-admin](https://element-plus-admin.cn/) - Full version of the github site
+- [vue-element-plus-admin](https://kailong110120130.gitee.io/vue-element-plus-admin) - Full version of the gitee site
 
-[vue3-element-admin](https://gitcode.com/youlai/vue3-element-admin) 是基于 Vue3 + Vite5+ TypeScript5 + Element-Plus + Pinia 等主流技术栈构建的免费开源的中后台管理的前端模板（配套[Java 后端源码](https://gitee.com/youlaiorg/youlai-boot)）。
+account: **admin/admin**
 
+Online examples do not apply to menu filtering by default, but directly use Static routing
 
-## 项目特色
+## Documentation
 
-- **简洁易用**：基于 [vue-element-admin](https://gitee.com/panjiachen/vue-element-admin) 升级的 Vue3 版本，无过渡封装 ，易上手。
+[Document Github](https://element-plus-admin-doc.cn/)
 
-- **数据交互**：同时支持本地 `Mock` 和线上接口，配套 [Java 后端源码](https://gitee.com/youlaiorg/youlai-boot)和[在线接口文档](https://www.apifox.cn/apidoc/shared-195e783f-4d85-4235-a038-eec696de4ea5)。
+[Document Gitee](https://kailong110120130.gitee.io/vue-element-plus-admin-doc)
 
-- **权限管理**：用户、角色、菜单、字典、部门等完善的权限系统功能。
+## Preparation
 
-- **基础设施**：动态路由、按钮权限、国际化、代码规范、Git 提交规范、常用组件封装。
+- [node](http://nodejs.org/) and [git](https://git-scm.com/) - Project development environment
+- [Vite](https://vitejs.dev/) - Familiar with vite features
+- [Vue3](https://v3.vuejs.org/) - Familiar with Vue basic syntax
+- [TypeScript](https://www.typescriptlang.org/) - Familiar with the basic syntax of `TypeScript`
+- [Es6+](http://es6.ruanyifeng.com/) - Familiar with es6 basic syntax
+- [Vue-Router-Next](https://next.router.vuejs.org/) - Familiar with the basic use of vue-router
+- [Element-Plus](https://element-plus.org/) - Familiar with the basic use of element-plus
+- [Mock.js](https://github.com/nuysoft/Mock) - mockjs basic syntax
 
-- **持续更新**：项目持续开源更新，实时更新工具和依赖。
+## Install and use
 
-
-
-## 项目预览
-
-![明亮模式](https://foruda.gitee.com/images/1709651876583793739/0ba1ee1c_716974.png)
-
-![暗黑模式](https://foruda.gitee.com/images/1709651875494206224/2a2b0b53_716974.png)
-
-![接口文档](https://foruda.gitee.com/images/1687755822857820115/96054330_716974.png)
-
-## 项目源码
-
-| 项目 | Gitee   | Github    | GitCode|
-| ---- | ----| ---- | ---- |
-| 前端 | [vue3-element-admin](https://gitee.com/youlaiorg/vue3-element-admin) | [vue3-element-admin](https://github.com/youlaitech/vue3-element-admin) | [vue3-element-admin](https://gitcode.com/youlai/vue3-element-admin) |
-| 精简版 | [vue3-element-template](https://gitee.com/youlaiorg/vue3-element-template) | [vue3-element-template](https://github.com/youlaitech/vue3-element-template) |-|
-| 后端 | [youlai-boot](https://gitee.com/youlaiorg/youlai-boot)       | [youlai-boot](https://github.com/haoxianrui/youlai-boot.git) |[youlai-boot](https://gitcode.com/youlai/youlai-boot.git)|
-
-## 环境准备
-
-| 环境                 | 名称版本                                                     | 下载地址                                                     |
-| -------------------- | :----------------------------------------------------------- | ------------------------------------------------------------ |
-| **开发工具**         | VSCode    | [下载](https://code.visualstudio.com/Download)           |
-| **运行环境**         | Node ≥18 (其中 20.6.0 版本不可用)    | [下载](http://nodejs.cn/download)                        |
-
-
-## 项目启动
+- Get the project code
 
 ```bash
-# 克隆代码
-git clone https://gitee.com/youlaiorg/vue3-element-admin.git
+git clone https://github.com/kailong321200875/vue-element-plus-admin.git
+```
 
-# 切换目录
-cd vue3-element-admin
+- Installation dependencies
 
-# 安装 pnpm
-npm install pnpm -g
+```bash
+cd vue-element-plus-admin
 
-# 设置镜像源(可忽略)
-pnpm config set registry https://registry.npmmirror.com
-
-# 安装依赖
 pnpm install
 
-# 启动运行
+```
+
+- run
+
+```bash
 pnpm run dev
 ```
 
-
-
-## 项目部署
+- build
 
 ```bash
-# 项目打包
-pnpm run build
-
-# 上传文件至远程服务器
-将本地打包生成的 dist 目录下的所有文件拷贝至服务器的 /usr/share/nginx/html 目录。
-
-# nginx.cofig 配置
-server {
-	listen     80;
-	server_name  localhost;
-	location / {
-			root /usr/share/nginx/html;
-			index index.html index.htm;
-	}
-	# 反向代理配置
-	location /prod-api/ {
-      # api.youlai.tech 替换后端API地址，注意保留后面的斜杠 /
-      proxy_pass http://api.youlai.tech/; 
-	}
-}
+pnpm run build:pro
 ```
 
-## 本地Mock
+## Change Log
 
-项目同时支持在线和本地 Mock 接口，默认使用线上接口，如需替换为 Mock 接口，修改文件 `.env.development` 的 `VITE_MOCK_DEV_SERVER` 为  `true` **即可**。
+[CHANGELOG](./CHANGELOG.md)
 
-## 后端接口
+## How to contribute
 
-> 如果您具备Java开发基础，按照以下步骤将在线接口转为本地后端接口，创建企业级前后端分离开发环境，助您走向全栈之路。
+<a href="https://github.com/kailong321200875/vue-element-plus-admin/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=kailong321200875/vue-element-plus-admin" />
+</a>
 
-1. 获取基于 `Java` 和 `SpringBoot` 开发的后端 [youlai-boot](https://gitee.com/youlaiorg/youlai-boot.git) 源码。
-2. 根据后端工程的说明文档 [README.md](https://gitee.com/youlaiorg/youlai-boot#%E9%A1%B9%E7%9B%AE%E8%BF%90%E8%A1%8C) 完成本地启动。
-3. 修改 `.env.development` 文件中的 `VITE_APP_API_URL` 的值，将其从 https://api.youlai.tech 更改为 http://localhost:8989 即可。
+You can [Raise an issue](https://github.com/kailong321200875/vue-element-plus-admin/issues/new) Or submit a Pull Request.
 
+**Pull Request:**
 
-## 注意事项
+1. Fork code
+2. Create your own branch: `git checkout -b feat/xxxx`
+3. Submit your changes: `git commit -am 'feat(function): add xxxxx'`
+4. Push your branch: `git push origin feat/xxxx`
+5. submit `pull request`
 
-- **自动导入插件自动生成默认关闭**
+## Git Contribution submission specification
 
-  模板项目的组件类型声明已自动生成。如果添加和使用新的组件，请按照图示方法开启自动生成。在自动生成完成后，记得将其设置为 `false`，避免重复执行引发冲突。
+- `feat` New features
+- `fix` Fix bugs
+- `docs` document
+- `style` Format and style (changes that do not affect code operation)
+- `refactor` Refactor
+- `perf` Optimize related, such as improving performance and experience
+- `test` Add test
+- `build` Compilation related modifications, changes to project construction or dependencies
+- `ci` Continuous integration modification
+- `chore` Changes in the construction process or auxiliary tools
+- `revert` Rollback to previous version
+- `workflow` Workflow improvement
+- `mod` Uncertain modification classification
+- `wip` Under development
+- `types` type
 
-  ![](https://foruda.gitee.com/images/1687755823137387608/412ea803_716974.png)
+## Browser support
 
-- **项目启动浏览器访问空白**
+The `Chrome 80+` browser is recommended for local development
 
-  请升级浏览器尝试，低版本浏览器内核可能不支持某些新的 JavaScript 语法，比如可选链操作符 `?.`。
+Support modern browsers, not IE
 
-- **项目同步仓库更新升级**
+| [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/archive/internet-explorer_9-11/internet-explorer_9-11_48x48.png" alt=" Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>IE | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png" alt=" Edge" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Edge | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png" alt="Firefox" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Firefox | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png" alt="Chrome" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Chrome | [<img src="https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png" alt="Safari" width="24px" height="24px" />](http://godban.github.io/browsers-support-badges/)</br>Safari |
+| :-: | :-: | :-: | :-: | :-: |
+| not support | last 2 versions | last 2 versions | last 2 versions | last 2 versions |
 
-  项目同步仓库更新升级之后，建议 `pnpm install` 安装更新依赖之后启动 。
+## Donate
 
-- **项目组件、函数和引用爆红**
+If you find this project helpful, welcome sponsorship to show your support~
 
-	重启 VSCode 尝试
+[Paypal Me](https://www.paypal.com/paypalme/ckl94)
 
-- **其他问题**
+<img src="https://github.com/kailong321200875/my-image/raw/master/pay.jpg" />
 
-  如果有其他问题或者建议，建议 [ISSUE](https://gitee.com/youlaiorg/vue3-element-admin/issues/new)
+### My QR code
 
+If you have any project cooperation or outsourcing, please scan the code to add me as a friend and leave a note of your purpose.
 
+<img src="https://github.com/kailong321200875/my-image/raw/master/me.jpg" />
 
-## 项目文档
+## License
 
-- [基于 Vue3 + Vite + TypeScript + Element-Plus 从0到1搭建后台管理系统](https://blog.csdn.net/u013737132/article/details/130191394)
-
-- [ESLint+Prettier+Stylelint+EditorConfig 约束和统一前端代码规范](https://blog.csdn.net/u013737132/article/details/130190788)
-- [Husky + Lint-staged + Commitlint + Commitizen + cz-git 配置 Git 提交规范](https://blog.csdn.net/u013737132/article/details/130191363)
-
-
-## 提交规范
-
-执行 `pnpm run commit` 唤起 git commit 交互，根据提示完成信息的输入和选择。
-
-![](https://foruda.gitee.com/images/1687755823165218215/c1705416_716974.png)
-
-
-## 项目统计
-
-![Alt](https://repobeats.axiom.co/api/embed/aa7cca3d6fa9c308fc659fa6e09af9a1910506c3.svg "Repobeats analytics image")
-
-
-Thanks to all the contributors!
-
-[![contributors](https://contrib.rocks/image?repo=youlaitech/vue3-element-admin)](https://github.com/youlaitech/vue3-element-admin/graphs/contributors)
-
-## G-Star
-
-![](https://foruda.gitee.com/images/1728577513089814203/95f2a70d_716974.jpeg)
-
-## 交流群🚀
-
-> **关注「有来技术」公众号，获取交流群二维码。**
->
-> 如果交流群的二维码过期，请加微信(haoxianrui)并备注「前端」、「后端」或「全栈」以获取最新二维码。
->
-> 为确保交流群质量，防止营销广告人群混入，我们采取了此措施。望各位理解！
-
-| 公众号 | 交流群 |
-|:----:|:----:|
-| ![有来技术公众号二维码](https://foruda.gitee.com/images/1687689212187063809/3c69eaee_716974.png) | ![交流群二维码](https://foruda.gitee.com/images/1687689212139273561/6a65ef69_716974.png) |
-
+[MIT](./LICENSE)

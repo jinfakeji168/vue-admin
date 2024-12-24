@@ -1,125 +1,110 @@
-import { store } from "@/store";
-import { usePermissionStoreHook } from "@/store/modules/permission";
-import { useDictStoreHook } from "@/store/modules/dict";
+import { defineStore } from 'pinia'
+import { store } from '../index'
+import { UserLoginType, UserType } from '@/api/login/types'
+import { ElMessageBox } from 'element-plus'
+import { useI18n } from '@/hooks/web/useI18n'
+import { loginOutApi, getUserApi } from '@/api/login'
+import { useTagsViewStore } from './tagsView'
+import router from '@/router'
 
-import AuthAPI, { type LoginData } from "@/api/auth";
-import UserAPI, { type UserInfo } from "@/api/system/user";
+interface UserState {
+  userInfo?: UserType
+  tokenKey: string
+  token: string
+  roleRouters?: string[] | AppCustomRouteRecordRaw[]
+  rememberMe: boolean
+  loginInfo?: UserLoginType
+}
 
-import { setToken, setRefreshToken, getRefreshToken, clearToken } from "@/utils/auth";
-
-export const useUserStore = defineStore("user", () => {
-  const userInfo = useStorage<UserInfo>("userInfo", {} as UserInfo);
-
-  /**
-   * 登录
-   *
-   * @param {LoginData}
-   * @returns
-   */
-  function login(loginData: LoginData) {
-    return new Promise<void>((resolve, reject) => {
-      AuthAPI.login(loginData)
-        .then((data) => {
-          console.log(data);
-
-          const { type, token } = data;
-          setToken(type + " " + token); // Bearer eyJhbGciOiJIUzI1NiJ9.xxx.xxx
-          //setRefreshToken(refreshToken);
-          resolve();
+export const useUserStore = defineStore('user', {
+  state: (): UserState => {
+    return {
+      userInfo: undefined,
+      tokenKey: 'Authorization',
+      token: '',
+      roleRouters: undefined,
+      // 记住我
+      rememberMe: true,
+      loginInfo: undefined
+    }
+  },
+  getters: {
+    getTokenKey(): string {
+      return this.tokenKey
+    },
+    getToken(): string {
+      return this.token
+    },
+    getUserInfo(): UserType | undefined {
+      return this.userInfo
+    },
+    getRoleRouters(): string[] | AppCustomRouteRecordRaw[] | undefined {
+      return this.roleRouters
+    },
+    getRememberMe(): boolean {
+      return this.rememberMe
+    },
+    getLoginInfo(): UserLoginType | undefined {
+      return this.loginInfo
+    }
+  },
+  actions: {
+    setTokenKey(tokenKey: string) {
+      this.tokenKey = tokenKey
+    },
+    setToken(token: string) {
+      this.token = token
+    },
+    async setUserInfo() {
+      const { data } = await getUserApi()
+      console.log(data)
+      const obj = {
+        permissions: ['*.*.*'],
+        role: 'admin',
+        roleId: '1'
+      }
+      this.userInfo = { ...data, ...obj }
+    },
+    setRoleRouters(roleRouters: string[] | AppCustomRouteRecordRaw[]) {
+      this.roleRouters = roleRouters
+    },
+    logoutConfirm() {
+      const { t } = useI18n()
+      ElMessageBox.confirm(t('common.loginOutMessage'), t('common.reminder'), {
+        confirmButtonText: t('common.ok'),
+        cancelButtonText: t('common.cancel'),
+        type: 'warning'
+      })
+        .then(async () => {
+          // const res = await loginOutApi().catch(() => {})
+          // if (res) {
+          this.reset()
+          // }
         })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  }
+        .catch(() => {})
+    },
+    reset() {
+      const tagsViewStore = useTagsViewStore()
+      tagsViewStore.delAllViews()
+      this.setToken('')
+      // this.setUserInfo(undefined)
+      this.userInfo = undefined
+      this.setRoleRouters([])
+      router.replace('/login')
+    },
+    logout() {
+      this.reset()
+    },
+    setRememberMe(rememberMe: boolean) {
+      this.rememberMe = rememberMe
+    },
+    setLoginInfo(loginInfo: UserLoginType | undefined) {
+      this.loginInfo = loginInfo
+    }
+  },
+  persist: true
+})
 
-  /**
-   * 获取用户信息
-   *
-   * @returns {UserInfo} 用户信息
-   */
-  function getUserInfo() {
-    return new Promise<UserInfo>((resolve, reject) => {
-      UserAPI.getInfo()
-        .then((data) => {
-          if (!data) {
-            reject("Verification failed, please Login again.");
-            return;
-          }
-          Object.assign(userInfo.value, { ...data });
-          resolve(data);
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  }
-
-  /**
-   * 登出
-   */
-  function logout() {
-    return new Promise<void>((resolve, reject) => {
-      AuthAPI.logout()
-        .then(() => {
-          clearUserData();
-          resolve();
-        })
-        .catch((error) => {
-          reject(error);
-        });
-    });
-  }
-
-  /**
-   * 刷新 token
-   */
-  function refreshToken() {
-    const refreshToken = getRefreshToken();
-    return new Promise<void>((resolve, reject) => {
-      AuthAPI.refreshToken(refreshToken)
-        .then((data) => {
-          const { tokenType, accessToken, refreshToken } = data;
-          setToken(tokenType + " " + accessToken);
-          setRefreshToken(refreshToken);
-          resolve();
-        })
-        .catch((error) => {
-          console.log(" refreshToken  刷新失败", error);
-          reject(error);
-        });
-    });
-  }
-
-  /**
-   * 清理用户数据
-   *
-   * @returns
-   */
-  function clearUserData() {
-    return new Promise<void>((resolve) => {
-      clearToken();
-      usePermissionStoreHook().resetRouter();
-      useDictStoreHook().clearDictionaryCache();
-      resolve();
-    });
-  }
-
-  return {
-    userInfo,
-    getUserInfo,
-    login,
-    logout,
-    clearUserData,
-    refreshToken,
-  };
-});
-
-/**
- * 用于在组件外部（如在Pinia Store 中）使用 Pinia 提供的 store 实例。
- * 官方文档解释了如何在组件外部使用 Pinia Store：
- * https://pinia.vuejs.org/core-concepts/outside-component-usage.html#using-a-store-outside-of-a-component
- */
-export function useUserStoreHook() {
-  return useUserStore(store);
+export const useUserStoreWithOut = () => {
+  return useUserStore(store)
 }
