@@ -1,3 +1,26 @@
+<template>
+  <ContentWrap>
+    <Search :schema="searchSchema" @reset="setSearchParams" @search="setSearchParams" />
+    <div class="mb-10px">
+      <BaseButton type="primary" @click="AddAction">{{ t('exampleDemo.add') }}</BaseButton>
+    </div>
+    <Table :columns="tableColumns" default-expand-all node-key="id" :data="dataList" :loading="loading" :pagination="{
+        total
+      }" @register="tableRegister" />
+  </ContentWrap>
+
+  <Dialog v-model="dialogVisible" :title="dialogTitle">
+    <Write v-if="actionType !== 'detail'" ref="writeRef" :current-row="currentRow" />
+    <Detail v-else :current-row="currentRow" />
+
+    <template #footer>
+      <BaseButton v-if="actionType !== 'detail'" type="primary" :loading="saveLoading" @click="save">
+        {{ t('exampleDemo.save') }}
+      </BaseButton>
+      <BaseButton @click="dialogVisible = false">{{ t('dialogDemo.close') }}</BaseButton>
+    </template>
+  </Dialog>
+</template>
 <script setup lang="tsx">
 import { reactive, ref, unref } from 'vue'
 import { getRoleListApi } from '@/api/role'
@@ -16,11 +39,15 @@ import { BaseButton } from '@/components/Button'
 const { t } = useI18n()
 
 const { tableRegister, tableState, tableMethods } = useTable({
-  fetchDataApi: async () => {
-    const res = await getRoleListApi()
+  fetchDataApi: async (e) => {
+    console.log(e)
+
+    const { data, meta } = await getRoleListApi(searchParams.value)
+    console.log(data)
+
     return {
-      list: res.data.list || [],
-      total: res.data.total
+      list: data || [],
+      total: meta.total
     }
   }
 })
@@ -30,12 +57,12 @@ const { getList } = tableMethods
 
 const tableColumns = reactive<TableColumn[]>([
   {
-    field: 'index',
+    field: 'id',
     label: t('userDemo.index'),
     type: 'index'
   },
   {
-    field: 'roleName',
+    field: 'name',
     label: t('role.roleName')
   },
   {
@@ -54,11 +81,11 @@ const tableColumns = reactive<TableColumn[]>([
     }
   },
   {
-    field: 'createTime',
+    field: 'created_at',
     label: t('tableDemo.displayTime')
   },
   {
-    field: 'remark',
+    field: 'description',
     label: t('userDemo.remark')
   },
   {
@@ -86,7 +113,7 @@ const tableColumns = reactive<TableColumn[]>([
 
 const searchSchema = reactive<FormSchema[]>([
   {
-    field: 'roleName',
+    field: 'name',
     label: t('role.roleName'),
     component: 'Input'
   }
@@ -134,40 +161,3 @@ const save = async () => {
   }
 }
 </script>
-
-<template>
-  <ContentWrap>
-    <Search :schema="searchSchema" @reset="setSearchParams" @search="setSearchParams" />
-    <div class="mb-10px">
-      <BaseButton type="primary" @click="AddAction">{{ t('exampleDemo.add') }}</BaseButton>
-    </div>
-    <Table
-      :columns="tableColumns"
-      default-expand-all
-      node-key="id"
-      :data="dataList"
-      :loading="loading"
-      :pagination="{
-        total
-      }"
-      @register="tableRegister"
-    />
-  </ContentWrap>
-
-  <Dialog v-model="dialogVisible" :title="dialogTitle">
-    <Write v-if="actionType !== 'detail'" ref="writeRef" :current-row="currentRow" />
-    <Detail v-else :current-row="currentRow" />
-
-    <template #footer>
-      <BaseButton
-        v-if="actionType !== 'detail'"
-        type="primary"
-        :loading="saveLoading"
-        @click="save"
-      >
-        {{ t('exampleDemo.save') }}
-      </BaseButton>
-      <BaseButton @click="dialogVisible = false">{{ t('dialogDemo.close') }}</BaseButton>
-    </template>
-  </Dialog>
-</template>

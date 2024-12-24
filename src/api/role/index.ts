@@ -1,5 +1,5 @@
 import request from '@/axios'
 
-export const getRoleListApi = () => {
-  return request.get({ url: '/mock/role/table' })
+export const getRoleListApi = (params) => {
+  return request.get({ url: '/api/admin/roles', params })
 }

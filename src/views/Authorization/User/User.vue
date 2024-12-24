@@ -1,3 +1,52 @@
+<template>
+  <div class="flex w-100% h-100%">
+    <ContentWrap class="w-250px">
+      <div class="flex justify-center items-center">
+        <div class="flex-1">{{ t('userDemo.departmentList') }}</div>
+        <ElInput v-model="currentDepartment" class="flex-[2]" :placeholder="t('userDemo.searchDepartment')" clearable />
+      </div>
+      <ElDivider />
+      <ElTree ref="treeEl" :data="departmentList" default-expand-all :expand-on-click-node="false" node-key="id"
+        :current-node-key="currentNodeKey" :props="{
+          label: 'departmentName'
+        }" :filter-node-method="filterNode" @current-change="currentChange">
+        <template #default="{ data }">
+          <div :title="data.departmentName" class="whitespace-nowrap overflow-ellipsis overflow-hidden">
+            {{ data.departmentName }}
+          </div>
+        </template>
+      </ElTree>
+    </ContentWrap>
+    <ContentWrap class="flex-[3] ml-20px">
+      <Search :schema="allSchemas.searchSchema" @reset="setSearchParams" @search="setSearchParams" />
+
+      <div class="mb-10px">
+        <BaseButton type="primary" @click="AddAction">{{ t('exampleDemo.add') }}</BaseButton>
+        <BaseButton :loading="delLoading" type="danger" @click="delData()">
+          {{ t('exampleDemo.del') }}
+        </BaseButton>
+      </div>
+      <Table v-model:current-page="currentPage" v-model:page-size="pageSize" :columns="allSchemas.tableColumns"
+        :data="dataList" :loading="loading" @register="tableRegister" :pagination="{
+          total
+        }" />
+    </ContentWrap>
+
+    <Dialog v-model="dialogVisible" :title="dialogTitle">
+      <Write v-if="actionType !== 'detail'" ref="writeRef" :form-schema="allSchemas.formSchema"
+        :current-row="currentRow" />
+
+      <Detail v-if="actionType === 'detail'" :detail-schema="allSchemas.detailSchema" :current-row="currentRow" />
+
+      <template #footer>
+        <BaseButton v-if="actionType !== 'detail'" type="primary" :loading="saveLoading" @click="save">
+          {{ t('exampleDemo.save') }}
+        </BaseButton>
+        <BaseButton @click="dialogVisible = false">{{ t('dialogDemo.close') }}</BaseButton>
+      </template>
+    </Dialog>
+  </div>
+</template>
 <script setup lang="tsx">
 import { ContentWrap } from '@/components/ContentWrap'
 import { useI18n } from '@/hooks/web/useI18n'
@@ -291,94 +340,3 @@ const save = async () => {
   }
 }
 </script>
-
-<template>
-  <div class="flex w-100% h-100%">
-    <ContentWrap class="w-250px">
-      <div class="flex justify-center items-center">
-        <div class="flex-1">{{ t('userDemo.departmentList') }}</div>
-        <ElInput
-          v-model="currentDepartment"
-          class="flex-[2]"
-          :placeholder="t('userDemo.searchDepartment')"
-          clearable
-        />
-      </div>
-      <ElDivider />
-      <ElTree
-        ref="treeEl"
-        :data="departmentList"
-        default-expand-all
-        :expand-on-click-node="false"
-        node-key="id"
-        :current-node-key="currentNodeKey"
-        :props="{
-          label: 'departmentName'
-        }"
-        :filter-node-method="filterNode"
-        @current-change="currentChange"
-      >
-        <template #default="{ data }">
-          <div
-            :title="data.departmentName"
-            class="whitespace-nowrap overflow-ellipsis overflow-hidden"
-          >
-            {{ data.departmentName }}
-          </div>
-        </template>
-      </ElTree>
-    </ContentWrap>
-    <ContentWrap class="flex-[3] ml-20px">
-      <Search
-        :schema="allSchemas.searchSchema"
-        @reset="setSearchParams"
-        @search="setSearchParams"
-      />
-
-      <div class="mb-10px">
-        <BaseButton type="primary" @click="AddAction">{{ t('exampleDemo.add') }}</BaseButton>
-        <BaseButton :loading="delLoading" type="danger" @click="delData()">
-          {{ t('exampleDemo.del') }}
-        </BaseButton>
-      </div>
-      <Table
-        v-model:current-page="currentPage"
-        v-model:page-size="pageSize"
-        :columns="allSchemas.tableColumns"
-        :data="dataList"
-        :loading="loading"
-        @register="tableRegister"
-        :pagination="{
-          total
-        }"
-      />
-    </ContentWrap>
-
-    <Dialog v-model="dialogVisible" :title="dialogTitle">
-      <Write
-        v-if="actionType !== 'detail'"
-        ref="writeRef"
-        :form-schema="allSchemas.formSchema"
-        :current-row="currentRow"
-      />
-
-      <Detail
-        v-if="actionType === 'detail'"
-        :detail-schema="allSchemas.detailSchema"
-        :current-row="currentRow"
-      />
-
-      <template #footer>
-        <BaseButton
-          v-if="actionType !== 'detail'"
-          type="primary"
-          :loading="saveLoading"
-          @click="save"
-        >
-          {{ t('exampleDemo.save') }}
-        </BaseButton>
-        <BaseButton @click="dialogVisible = false">{{ t('dialogDemo.close') }}</BaseButton>
-      </template>
-    </Dialog>
-  </div>
-</template>
