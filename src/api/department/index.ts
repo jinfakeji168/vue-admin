@@ -6,7 +6,7 @@ export const getDepartmentApi = () => {
 }
 
 export const getUserByIdApi = (params: DepartmentUserParams) => {
-  return request.get<DepartmentUserResponse>({ url: '/mock/department/users', params })
+  return request.get({ url: '/api/admin/users', params })
 }
 
 export const deleteUserByIdApi = (ids: string[] | number[]) => {
@@ -14,7 +14,7 @@ export const deleteUserByIdApi = (ids: string[] | number[]) => {
 }
 
 export const saveUserApi = (data: any) => {
-  return request.post({ url: '/mock/department/user/save', data })
+  return request.post({ url: '/api/admin/user/save', data })
 }
 
 export const saveDepartmentApi = (data: any) => {
