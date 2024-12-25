@@ -1,7 +1,6 @@
-<script setup lang="ts">
+<script setup>
 import VueJsonPretty from 'vue-json-pretty'
 import 'vue-json-pretty/lib/styles.css'
-import { propTypes } from '@/utils/propTypes'
 import { computed } from 'vue'
 
 const emits = defineEmits([
@@ -17,26 +16,86 @@ const props = defineProps({
     type: Object,
     default: () => ({})
   },
-  deep: propTypes.number.def(5),
-  showLength: propTypes.bool.def(true),
-  showLineNumbers: propTypes.bool.def(true),
-  showLineNumber: propTypes.bool.def(true),
-  showIcon: propTypes.bool.def(true),
-  showDoubleQuotes: propTypes.bool.def(true),
-  virtual: propTypes.bool.def(false),
-  height: propTypes.number.def(400),
-  itemHeight: propTypes.number.def(20),
-  rootPath: propTypes.string.def('root'),
-  nodeSelectable: propTypes.func.def(),
-  selectableType: propTypes.oneOf<'multiple' | 'single'>(['multiple', 'single']).def(),
-  showSelectController: propTypes.bool.def(false),
-  selectOnClickNode: propTypes.bool.def(true),
-  highlightSelectedNode: propTypes.bool.def(true),
-  collapsedOnClickBrackets: propTypes.bool.def(true),
-  renderNodeKey: propTypes.func.def(),
-  renderNodeValue: propTypes.func.def(),
-  editable: propTypes.bool.def(true),
-  editableTrigger: propTypes.oneOf<'click' | 'dblclick'>(['click', 'dblclick']).def('click')
+  deep: {
+    type: Number,
+    default: 5
+  },
+  showLength: {
+    type: Boolean,
+    default: true
+  },
+  showLineNumbers: {
+    type: Boolean,
+    default: true
+  },
+  showLineNumber: {
+    type: Boolean,
+    default: true
+  },
+  showIcon: {
+    type: Boolean,
+    default: true
+  },
+  showDoubleQuotes: {
+    type: Boolean,
+    default: true
+  },
+  virtual: {
+    type: Boolean,
+    default: false
+  },
+  height: {
+    type: Number,
+    default: 400
+  },
+  itemHeight: {
+    type: Number,
+    default: 20
+  },
+  rootPath: {
+    type: String,
+    default: 'root'
+  },
+  nodeSelectable: {
+    type: Function,
+    default: (e) => { return e }
+  },
+  selectableType: {//['multiple', 'single']
+    type: String,
+    default: ''
+  },
+  showSelectController: {
+    type: Boolean,
+    default: false
+  },
+  selectOnClickNode: {
+    type: Boolean,
+    default: true
+  },
+  highlightSelectedNode: {
+    type: Boolean,
+    default: true
+  },
+  collapsedOnClickBrackets: {
+    type: Boolean,
+    default: true
+  },
+  renderNodeKey: {
+    type: Function,
+    default: (e) => { return e }
+  },
+  renderNodeValue: {
+    type: Function,
+    default: (e) => { return e }
+  },
+  editable: {
+    type: Boolean,
+    default: true
+  },
+  editableTrigger: {//['click', 'dblclick']
+    type: String,
+    default: 'click'
+  }
 })
 
 const data = computed(() => props.modelValue)
@@ -49,50 +108,32 @@ const localModelValue = computed({
   }
 })
 
-const nodeClick = (node: any) => {
+const nodeClick = (node) => {
   emits('node-click', node)
 }
 
-const bracketsClick = (collapsed: boolean) => {
+const bracketsClick = (collapsed) => {
   emits('brackets-click', collapsed)
 }
 
-const iconClick = (collapsed: boolean) => {
+const iconClick = (collapsed) => {
   emits('icon-click', collapsed)
 }
 
-const selectedChange = (newVal: any, oldVal: any) => {
+const selectedChange = (newVal, oldVal) => {
   console.log(newVal, oldVal)
   emits('selected-value', newVal, oldVal)
 }
 </script>
 
 <template>
-  <VueJsonPretty
-    v-model:data="localModelValue"
-    :deep="deep"
-    :show-length="showLength"
-    :show-line-numbers="showLineNumbers"
-    :show-line-number="showLineNumber"
-    :show-icon="showIcon"
-    :show-double-quotes="showDoubleQuotes"
-    :virtual="virtual"
-    :height="height"
-    :item-height="itemHeight"
-    :root-path="rootPath"
-    :node-selectable="nodeSelectable"
-    :selectable-type="selectableType"
-    :show-select-controller="showSelectController"
-    :select-on-click-node="selectOnClickNode"
-    :highlight-selected-node="highlightSelectedNode"
-    :collapsed-on-click-brackets="collapsedOnClickBrackets"
-    :render-node-key="renderNodeKey"
-    :render-node-value="renderNodeValue"
-    :editable="editable"
-    :editable-trigger="editableTrigger"
-    @node-click="nodeClick"
-    @brackets-click="bracketsClick"
-    @icon-click="iconClick"
-    @selected-change="selectedChange"
-  />
+  <VueJsonPretty v-model:data="localModelValue" :deep="deep" :show-length="showLength"
+    :show-line-numbers="showLineNumbers" :show-line-number="showLineNumber" :show-icon="showIcon"
+    :show-double-quotes="showDoubleQuotes" :virtual="virtual" :height="height" :item-height="itemHeight"
+    :root-path="rootPath" :node-selectable="nodeSelectable" :selectable-type="selectableType"
+    :show-select-controller="showSelectController" :select-on-click-node="selectOnClickNode"
+    :highlight-selected-node="highlightSelectedNode" :collapsed-on-click-brackets="collapsedOnClickBrackets"
+    :render-node-key="renderNodeKey" :render-node-value="renderNodeValue" :editable="editable"
+    :editable-trigger="editableTrigger" @node-click="nodeClick" @brackets-click="bracketsClick" @icon-click="iconClick"
+    @selected-change="selectedChange" />
 </template>

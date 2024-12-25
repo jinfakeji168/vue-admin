@@ -7,7 +7,7 @@ const root = process.cwd()
 
 const createPresetIcons = () => {
   const isBuild = !!process.argv[4]
-  let env = {} as any
+  let env = {}
   if (!isBuild) {
     env = loadEnv(process.argv[3], root)
   } else {

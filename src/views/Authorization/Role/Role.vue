@@ -21,15 +21,14 @@
     </template>
   </Dialog>
 </template>
-<script setup lang="tsx">
+<script setup lang="jsx">
 import { reactive, ref, unref } from 'vue'
 import { getRoleListApi } from '@/api/role'
 import { useTable } from '@/hooks/web/useTable'
 import { useI18n } from '@/hooks/web/useI18n'
-import { Table, TableColumn } from '@/components/Table'
+import { Table } from '@/components/Table'
 import { ElTag } from 'element-plus'
 import { Search } from '@/components/Search'
-import { FormSchema } from '@/components/Form'
 import { ContentWrap } from '@/components/ContentWrap'
 import Write from './components/Write.vue'
 import Detail from './components/Detail.vue'
@@ -55,7 +54,7 @@ const { tableRegister, tableState, tableMethods } = useTable({
 const { dataList, loading, total } = tableState
 const { getList } = tableMethods
 
-const tableColumns = reactive<TableColumn[]>([
+const tableColumns = reactive([
   {
     field: 'id',
     label: t('userDemo.index'),
@@ -69,7 +68,7 @@ const tableColumns = reactive<TableColumn[]>([
     field: 'status',
     label: t('menu.status'),
     slots: {
-      default: (data: any) => {
+      default: (data) => {
         return (
           <>
             <ElTag type={data.row.status === 0 ? 'danger' : 'success'}>
@@ -93,7 +92,7 @@ const tableColumns = reactive<TableColumn[]>([
     label: t('userDemo.action'),
     width: 240,
     slots: {
-      default: (data: any) => {
+      default: (data) => {
         const row = data.row
         return (
           <>
@@ -111,7 +110,7 @@ const tableColumns = reactive<TableColumn[]>([
   }
 ])
 
-const searchSchema = reactive<FormSchema[]>([
+const searchSchema = reactive([
   {
     field: 'name',
     label: t('role.roleName'),
@@ -120,7 +119,7 @@ const searchSchema = reactive<FormSchema[]>([
 ])
 
 const searchParams = ref({})
-const setSearchParams = (data: any) => {
+const setSearchParams = (data) => {
   searchParams.value = data
   getList()
 }
@@ -131,11 +130,11 @@ const dialogTitle = ref('')
 const currentRow = ref()
 const actionType = ref('')
 
-const writeRef = ref<ComponentRef<typeof Write>>()
+const writeRef = ref()
 
 const saveLoading = ref(false)
 
-const action = (row: any, type: string) => {
+const action = (row, type) => {
   dialogTitle.value = t(type === 'edit' ? 'exampleDemo.edit' : 'exampleDemo.detail')
   actionType.value = type
   currentRow.value = row

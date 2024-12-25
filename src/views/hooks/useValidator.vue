@@ -1,10 +1,9 @@
-<script setup lang="ts">
+<script setup>
 import { ContentWrap } from '@/components/ContentWrap'
-import { Form, FormSchema } from '@/components/Form'
+import { Form } from '@/components/Form'
 import { useValidator } from '@/hooks/web/useValidator'
 import { useForm } from '@/hooks/web/useForm'
 import { reactive } from 'vue'
-import { FormItemRule } from 'element-plus'
 
 const { formRegister, formMethods } = useForm()
 
@@ -12,7 +11,7 @@ const { getFormData } = formMethods
 
 const { required, lengthRange, notSpace, notSpecialCharacters } = useValidator()
 
-const formSchema = reactive<FormSchema[]>([
+const formSchema = reactive([
   {
     field: 'field1',
     label: '必填',
@@ -45,9 +44,7 @@ const formSchema = reactive<FormSchema[]>([
   }
 ])
 
-const rules = reactive<{
-  [key: string]: FormItemRule[]
-}>({
+const rules = reactive({
   field1: [required()],
   field2: [
     lengthRange({

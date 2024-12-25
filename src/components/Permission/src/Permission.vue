@@ -1,12 +1,13 @@
-<script setup lang="ts">
-import { propTypes } from '@/utils/propTypes'
+<script setup>
 import { computed, unref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const { currentRoute } = useRouter()
 
 const props = defineProps({
-  permission: propTypes.string.def()
+  permission: {
+    type: String
+  }
 })
 
 const currentPermission = computed(() => {

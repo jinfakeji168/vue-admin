@@ -1,4 +1,4 @@
-<script setup lang="tsx">
+<script setup lang="jsx">
 import { ContentWrap } from '@/components/ContentWrap'
 import { Search } from '@/components/Search'
 import { useI18n } from '@/hooks/web/useI18n'
@@ -6,11 +6,10 @@ import { ElTag } from 'element-plus'
 import { Table } from '@/components/Table'
 import { getTableListApi, delTableListApi } from '@/api/table'
 import { useTable } from '@/hooks/web/useTable'
-import { TableData } from '@/api/table/types'
 import { reactive, ref, unref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useEventBus } from '@/hooks/event/useEventBus'
-import { CrudSchema, useCrudSchemas } from '@/hooks/web/useCrudSchemas'
+import { useCrudSchemas } from '@/hooks/web/useCrudSchemas'
 import { BaseButton } from '@/components/Button'
 
 defineOptions({
@@ -19,10 +18,10 @@ defineOptions({
 
 const { push } = useRouter()
 
-const ids = ref<string[]>([])
+const ids = ref([])
 
 const searchParams = ref({})
-const setSearchParams = (params: any) => {
+const setSearchParams = (params) => {
   searchParams.value = params
   getList()
 }
@@ -52,7 +51,7 @@ getList()
 
 useEventBus({
   name: 'getList',
-  callback: (type: string) => {
+  callback: (type) => {
     if (type === 'add') {
       currentPage.value = 1
     }
@@ -62,7 +61,7 @@ useEventBus({
 
 const { t } = useI18n()
 
-const crudSchemas = reactive<CrudSchema[]>([
+const crudSchemas = reactive([
   {
     field: 'selection',
     search: {
@@ -159,7 +158,7 @@ const crudSchemas = reactive<CrudSchema[]>([
     },
     detail: {
       slots: {
-        default: (data: any) => {
+        default: (data) => {
           return (
             <ElTag
               type={
@@ -206,7 +205,7 @@ const crudSchemas = reactive<CrudSchema[]>([
     detail: {
       span: 24,
       slots: {
-        default: (data: any) => {
+        default: (data) => {
           return <div innerHTML={data.content}></div>
         }
       }
@@ -227,7 +226,7 @@ const crudSchemas = reactive<CrudSchema[]>([
     },
     table: {
       slots: {
-        default: (data: any) => {
+        default: (data) => {
           return (
             <>
               <BaseButton type="primary" onClick={() => action(data.row, 'edit')}>
@@ -256,16 +255,16 @@ const AddAction = () => {
 
 const delLoading = ref(false)
 
-const delData = async (row: TableData | null) => {
+const delData = async (row) => {
   const elTableExpose = await getElTableExpose()
-  ids.value = row ? [row.id] : elTableExpose?.getSelectionRows().map((v: TableData) => v.id) || []
+  ids.value = row ? [row.id] : elTableExpose?.getSelectionRows().map((v) => v.id) || []
   delLoading.value = true
   await delList(unref(ids).length).finally(() => {
     delLoading.value = false
   })
 }
 
-const action = (row: TableData, type: string) => {
+const action = (row, type) => {
   push(`/example/example-${type}?id=${row.id}`)
 }
 </script>
@@ -281,17 +280,10 @@ const action = (row: TableData, type: string) => {
       </BaseButton>
     </div>
 
-    <Table
-      v-model:pageSize="pageSize"
-      v-model:currentPage="currentPage"
-      :columns="allSchemas.tableColumns"
-      :data="dataList"
-      :loading="loading"
-      :pagination="{
+    <Table v-model:pageSize="pageSize" v-model:currentPage="currentPage" :columns="allSchemas.tableColumns"
+      :data="dataList" :loading="loading" :pagination="{
         total: total
-      }"
-      @register="tableRegister"
-    />
+      }" @register="tableRegister" />
   </ContentWrap>
 </template>
 @/hooks/event/useEventBus

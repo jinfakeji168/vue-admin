@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ref } from 'vue'
 import { useAppStore } from '@/store/modules/app'
 import { ElSwitch } from 'element-plus'
@@ -23,24 +23,15 @@ const isDark = ref(appStore.getIsDark)
 // 设置switch的背景颜色
 const blackColor = 'var(--el-color-black)'
 
-const themeChange = (val: boolean) => {
+const themeChange = (val) => {
   appStore.setIsDark(val)
   emit('change', val)
 }
 </script>
 
 <template>
-  <ElSwitch
-    :class="prefixCls"
-    v-model="isDark"
-    inline-prompt
-    :border-color="blackColor"
-    :inactive-color="blackColor"
-    :active-color="blackColor"
-    :active-icon="Sun"
-    :inactive-icon="CrescentMoon"
-    @change="themeChange"
-  />
+  <ElSwitch :class="prefixCls" v-model="isDark" inline-prompt :border-color="blackColor" :inactive-color="blackColor"
+    :active-color="blackColor" :active-icon="Sun" :inactive-icon="CrescentMoon" @change="themeChange" />
 </template>
 
 <style lang="less" scoped>

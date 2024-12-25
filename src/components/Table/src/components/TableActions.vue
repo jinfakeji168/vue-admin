@@ -1,10 +1,9 @@
-<script lang="tsx">
-import { defineComponent, unref, computed, PropType, ref } from 'vue'
-import { ElDropdown, ElDropdownMenu, ElDropdownItem, ComponentSize } from 'element-plus'
+<script lang="jsx">
+import { defineComponent, unref, computed, ref } from 'vue'
+import { ElDropdown, ElDropdownMenu, ElDropdownItem } from 'element-plus'
 import { Icon } from '@/components/Icon'
 import { useI18n } from '@/hooks/web/useI18n'
 import { useAppStore } from '@/store/modules/app'
-import { TableColumn } from '../types'
 import ColumnSetting from './ColumnSetting.vue'
 
 export default defineComponent({
@@ -14,12 +13,12 @@ export default defineComponent({
   },
   props: {
     columns: {
-      type: Array as PropType<TableColumn[]>,
+      type: Array,
       default: () => []
     }
   },
   emits: ['refresh', 'changSize', 'confirm'],
-  setup(props, { emit }) {
+  setup (props, { emit }) {
     const appStore = useAppStore()
     const { t } = useI18n()
     const sizeMap = computed(() => appStore.sizeMap)
@@ -29,11 +28,11 @@ export default defineComponent({
       emit('refresh')
     }
 
-    const changSize = (size: ComponentSize) => {
+    const changSize = (size) => {
       emit('changSize', size)
     }
 
-    const confirm = (columns: TableColumn[]) => {
+    const confirm = (columns) => {
       emit('confirm', columns)
     }
 

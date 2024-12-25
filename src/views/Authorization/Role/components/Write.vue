@@ -1,7 +1,7 @@
-<script setup lang="tsx">
-import { Form, FormSchema } from '@/components/Form'
+<script setup lang="jsx">
+import { Form } from '@/components/Form'
 import { useForm } from '@/hooks/web/useForm'
-import { PropType, reactive, watch, ref, unref, nextTick } from 'vue'
+import { reactive, watch, ref, unref, nextTick } from 'vue'
 import { useValidator } from '@/hooks/web/useValidator'
 import { useI18n } from '@/hooks/web/useI18n'
 import { ElTree, ElCheckboxGroup, ElCheckbox } from 'element-plus'
@@ -15,14 +15,14 @@ const { required } = useValidator()
 
 const props = defineProps({
   currentRow: {
-    type: Object as PropType<any>,
+    type: Object,
     default: () => null
   }
 })
 
-const treeRef = ref<typeof ElTree>()
+const treeRef = ref()
 
-const formSchema = ref<FormSchema[]>([
+const formSchema = ref([
   {
     field: 'roleName',
     label: t('role.roleName'),
@@ -78,7 +78,7 @@ const formSchema = ref<FormSchema[]>([
                 <div class="flex-1">
                   {unref(currentTreeData) && unref(currentTreeData)?.permissionList ? (
                     <ElCheckboxGroup v-model={unref(currentTreeData).meta.permission}>
-                      {unref(currentTreeData)?.permissionList.map((v: any) => {
+                      {unref(currentTreeData)?.permissionList.map((v) => {
                         return <ElCheckbox label={v.value}>{v.label}</ElCheckbox>
                       })}
                     </ElCheckboxGroup>
@@ -94,7 +94,7 @@ const formSchema = ref<FormSchema[]>([
 ])
 
 const currentTreeData = ref()
-const nodeClick = (treeData: any) => {
+const nodeClick = (treeData) => {
   currentTreeData.value = treeData
 }
 
@@ -114,7 +114,7 @@ const getMenuList = async () => {
     treeData.value = res.data.list
     if (!props.currentRow) return
     await nextTick()
-    const checked: any[] = []
+    const checked = []
     eachTree(props.currentRow.menu, (v) => {
       checked.push({
         id: v.id,
@@ -150,7 +150,7 @@ const submit = async () => {
   if (valid) {
     const formData = await getFormData()
     const checkedKeys = unref(treeRef)?.getCheckedKeys() || []
-    const data = filter(unref(treeData), (item: any) => {
+    const data = filter(unref(treeData), (item) => {
       return checkedKeys.includes(item.id)
     })
     formData.menu = data || []

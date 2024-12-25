@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ContentWrap } from '@/components/ContentWrap'
 import { useTagsView } from '@/hooks/web/useTagsView'
 import { useRouter } from 'vue-router'

@@ -1,9 +1,8 @@
-<script setup lang="ts">
+<script setup>
 import { computed } from 'vue'
-import { ElDropdown, ElDropdownMenu, ElDropdownItem, ComponentSize } from 'element-plus'
+import { ElDropdown, ElDropdownMenu, ElDropdownItem } from 'element-plus'
 import { useAppStore } from '@/store/modules/app'
 import { useI18n } from '@/hooks/web/useI18n'
-import { propTypes } from '@/utils/propTypes'
 import { useDesign } from '@/hooks/web/useDesign'
 
 const { getPrefixCls } = useDesign()
@@ -11,7 +10,10 @@ const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('size-dropdown')
 
 defineProps({
-  color: propTypes.string.def('')
+  color: {
+    type: String,
+    default: ''
+  }
 })
 
 const { t } = useI18n()
@@ -20,7 +22,7 @@ const appStore = useAppStore()
 
 const sizeMap = computed(() => appStore.sizeMap)
 
-const setCurrentSize = (size: ComponentSize) => {
+const setCurrentSize = (size) => {
   appStore.setCurrentSize(size)
 }
 </script>

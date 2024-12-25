@@ -1,6 +1,10 @@
-<script setup lang="tsx">
+<template>
+  <Form :schema="schema" :rules="rules" label-position="top" hide-required-asterisk size="large"
+    class="dark:(border-1 border-[var(--el-border-color)] border-solid)" @register="formRegister" />
+</template>
+<script setup lang="jsx">
 import { reactive, ref, watch, onMounted, unref } from 'vue'
-import { Form, FormSchema } from '@/components/Form'
+import { Form } from '@/components/Form'
 import { useI18n } from '@/hooks/web/useI18n'
 import { ElCheckbox, ElLink } from 'element-plus'
 import { useForm } from '@/hooks/web/useForm'
@@ -8,15 +12,11 @@ import { loginApi, getTestRoleApi, getAdminRoleApi } from '@/api/login'
 import { useAppStore } from '@/store/modules/app'
 import { usePermissionStore } from '@/store/modules/permission'
 import { useRouter } from 'vue-router'
-import type { RouteLocationNormalizedLoaded, RouteRecordRaw } from 'vue-router'
-import { UserType } from '@/api/login/types'
 import { useValidator } from '@/hooks/web/useValidator'
 import { Icon } from '@/components/Icon'
 import { useUserStore } from '@/store/modules/user'
 import { BaseButton } from '@/components/Button'
-
 const { required } = useValidator()
-
 const emit = defineEmits(['to-register'])
 
 const appStore = useAppStore()
@@ -34,7 +34,7 @@ const rules = {
   password: [required()]
 }
 
-const schema = reactive<FormSchema[]>([
+const schema = reactive([
   {
     field: 'title',
     colProps: { span: 24 },
@@ -196,12 +196,12 @@ const iconColor = '#999'
 
 const hoverColor = 'var(--el-color-primary)'
 
-const redirect = ref<string>('')
+const redirect = ref('')
 
 watch(
   () => currentRoute.value,
-  (route: RouteLocationNormalizedLoaded) => {
-    redirect.value = route?.query?.redirect as string
+  (route) => {
+    redirect.value = route?.query?.redirect
   },
   {
     immediate: true
@@ -214,7 +214,7 @@ const signIn = async () => {
   await formRef?.validate(async (isValid) => {
     if (isValid) {
       loading.value = true
-      const formData = await getFormData<UserType>()
+      const formData = await getFormData()
       try {
         const { data } = await loginApi(formData)
         console.log(data)
@@ -236,9 +236,9 @@ const signIn = async () => {
           if (appStore.getDynamicRouter) {
             getRole()
           } else {
-            await permissionStore.generateRoutes('static').catch(() => {})
+            await permissionStore.generateRoutes('static').catch(() => { })
             permissionStore.getAddRouters.forEach((route) => {
-              addRoute(route as RouteRecordRaw) // 动态添加可访问路由表
+              addRoute(route) // 动态添加可访问路由表
             })
             permissionStore.setIsAddRouters(true)
             push({ path: redirect.value || permissionStore.addRouters[0].path })
@@ -253,7 +253,7 @@ const signIn = async () => {
 
 // 获取角色信息
 const getRole = async () => {
-  const formData = await getFormData<UserType>()
+  const formData = await getFormData()
   const params = {
     roleName: formData.username
   }
@@ -265,11 +265,11 @@ const getRole = async () => {
     const routers = res.data || []
     userStore.setRoleRouters(routers)
     appStore.getDynamicRouter && appStore.getServerDynamicRouter
-      ? await permissionStore.generateRoutes('server', routers).catch(() => {})
-      : await permissionStore.generateRoutes('frontEnd', routers).catch(() => {})
+      ? await permissionStore.generateRoutes('server', routers).catch(() => { })
+      : await permissionStore.generateRoutes('frontEnd', routers).catch(() => { })
 
     permissionStore.getAddRouters.forEach((route) => {
-      addRoute(route as RouteRecordRaw) // 动态添加可访问路由表
+      addRoute(route) // 动态添加可访问路由表
     })
     permissionStore.setIsAddRouters(true)
     push({ path: redirect.value || permissionStore.addRouters[0].path })
@@ -281,15 +281,3 @@ const toRegister = () => {
   emit('to-register')
 }
 </script>
-
-<template>
-  <Form
-    :schema="schema"
-    :rules="rules"
-    label-position="top"
-    hide-required-asterisk
-    size="large"
-    class="dark:(border-1 border-[var(--el-border-color)] border-solid)"
-    @register="formRegister"
-  />
-</template>

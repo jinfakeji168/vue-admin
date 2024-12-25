@@ -1,4 +1,4 @@
-<script setup lang="tsx">
+<script setup lang="jsx">
 import { ContentWrap } from '@/components/ContentWrap'
 import { Search } from '@/components/Search'
 import { Dialog } from '@/components/Dialog'
@@ -11,10 +11,10 @@ import { TableData } from '@/api/table/types'
 import { ref, unref, reactive } from 'vue'
 import Write from './components/Write.vue'
 import Detail from './components/Detail.vue'
-import { CrudSchema, useCrudSchemas } from '@/hooks/web/useCrudSchemas'
+import { useCrudSchemas } from '@/hooks/web/useCrudSchemas'
 import { BaseButton } from '@/components/Button'
 
-const ids = ref<string[]>([])
+const ids = ref([])
 
 const { tableRegister, tableState, tableMethods } = useTable({
   fetchDataApi: async () => {
@@ -38,14 +38,14 @@ const { loading, dataList, total, currentPage, pageSize } = tableState
 const { getList, getElTableExpose, delList } = tableMethods
 
 const searchParams = ref({})
-const setSearchParams = (params: any) => {
+const setSearchParams = (params) => {
   searchParams.value = params
   getList()
 }
 
 const { t } = useI18n()
 
-const crudSchemas = reactive<CrudSchema[]>([
+const crudSchemas = reactive([
   {
     field: 'selection',
     search: {
@@ -142,7 +142,7 @@ const crudSchemas = reactive<CrudSchema[]>([
     },
     detail: {
       slots: {
-        default: (data: any) => {
+        default: (data) => {
           return (
             <ElTag
               type={
@@ -189,7 +189,7 @@ const crudSchemas = reactive<CrudSchema[]>([
     detail: {
       span: 24,
       slots: {
-        default: (data: any) => {
+        default: (data) => {
           return <div innerHTML={data.content}></div>
         }
       }
@@ -210,7 +210,7 @@ const crudSchemas = reactive<CrudSchema[]>([
     },
     table: {
       slots: {
-        default: (data: any) => {
+        default: (data) => {
           return (
             <>
               <BaseButton type="primary" onClick={() => action(data.row, 'edit')}>
@@ -236,7 +236,7 @@ const { allSchemas } = useCrudSchemas(crudSchemas)
 const dialogVisible = ref(false)
 const dialogTitle = ref('')
 
-const currentRow = ref<TableData | null>(null)
+const currentRow = ref < TableData | null > (null)
 const actionType = ref('')
 
 const AddAction = () => {
@@ -248,23 +248,23 @@ const AddAction = () => {
 
 const delLoading = ref(false)
 
-const delData = async (row: TableData | null) => {
+const delData = async (row) => {
   const elTableExpose = await getElTableExpose()
-  ids.value = row ? [row.id] : elTableExpose?.getSelectionRows().map((v: TableData) => v.id) || []
+  ids.value = row ? [row.id] : elTableExpose?.getSelectionRows().map((v) => v.id) || []
   delLoading.value = true
   await delList(unref(ids).length).finally(() => {
     delLoading.value = false
   })
 }
 
-const action = (row: TableData, type: string) => {
+const action = (row, type) => {
   dialogTitle.value = t(type === 'edit' ? 'exampleDemo.edit' : 'exampleDemo.detail')
   actionType.value = type
   currentRow.value = row
   dialogVisible.value = true
 }
 
-const writeRef = ref<ComponentRef<typeof Write>>()
+const writeRef = ref()
 
 const saveLoading = ref(false)
 
@@ -274,7 +274,7 @@ const save = async () => {
   if (formData) {
     saveLoading.value = true
     const res = await saveTableApi(formData)
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => {
         saveLoading.value = false
       })
@@ -298,40 +298,20 @@ const save = async () => {
       </BaseButton>
     </div>
 
-    <Table
-      v-model:pageSize="pageSize"
-      v-model:currentPage="currentPage"
-      :columns="allSchemas.tableColumns"
-      :data="dataList"
-      :loading="loading"
-      :pagination="{
+    <Table v-model:pageSize="pageSize" v-model:currentPage="currentPage" :columns="allSchemas.tableColumns"
+      :data="dataList" :loading="loading" :pagination="{
         total: total
-      }"
-      @register="tableRegister"
-    />
+      }" @register="tableRegister" />
   </ContentWrap>
 
   <Dialog v-model="dialogVisible" :title="dialogTitle">
-    <Write
-      v-if="actionType !== 'detail'"
-      ref="writeRef"
-      :form-schema="allSchemas.formSchema"
-      :current-row="currentRow"
-    />
+    <Write v-if="actionType !== 'detail'" ref="writeRef" :form-schema="allSchemas.formSchema"
+      :current-row="currentRow" />
 
-    <Detail
-      v-if="actionType === 'detail'"
-      :detail-schema="allSchemas.detailSchema"
-      :current-row="currentRow"
-    />
+    <Detail v-if="actionType === 'detail'" :detail-schema="allSchemas.detailSchema" :current-row="currentRow" />
 
     <template #footer>
-      <BaseButton
-        v-if="actionType !== 'detail'"
-        type="primary"
-        :loading="saveLoading"
-        @click="save"
-      >
+      <BaseButton v-if="actionType !== 'detail'" type="primary" :loading="saveLoading" @click="save">
         {{ t('exampleDemo.save') }}
       </BaseButton>
       <BaseButton @click="dialogVisible = false">{{ t('dialogDemo.close') }}</BaseButton>

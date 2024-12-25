@@ -1,17 +1,37 @@
-<script lang="tsx" setup>
-import { propTypes } from '@/utils/propTypes'
+<script lang="jsx" setup>
 import { computed, getCurrentInstance, onMounted, unref, useAttrs, useSlots } from 'vue'
 import Dialog from './Dialog.vue'
 import { useResize } from '../hooks/useResize'
 
 const props = defineProps({
-  modelValue: propTypes.bool.def(false),
-  title: propTypes.string.def('Dialog'),
-  fullscreen: propTypes.bool.def(true),
-  initWidth: propTypes.number.def(window.innerWidth / 2),
-  initHeight: propTypes.number.def(200),
-  minResizeWidth: propTypes.number.def(window.innerWidth / 2),
-  minResizeHeight: propTypes.number.def(200)
+  modelValue: {
+    type: Boolean,
+    default: false
+  },
+  title: {
+    type: String,
+    default: 'Dialog'
+  },
+  fullscreen: {
+    type: Boolean,
+    default: true
+  },
+  initWidth: {
+    type: Number,
+    default: window.innerWidth / 2
+  },
+  initHeight: {
+    type: Number,
+    default: 200
+  },
+  minResizeWidth: {
+    type: Number,
+    default: window.innerWidth / 2
+  },
+  minResizeHeight: {
+    type: Number,
+    default: 200
+  }
 })
 const { maxHeight, minWidth, setupDrag } = useResize({
   minHeightPx: props.minResizeHeight,
@@ -21,7 +41,7 @@ const { maxHeight, minWidth, setupDrag } = useResize({
 })
 
 const vResize = {
-  mounted(el) {
+  mounted (el) {
     const observer = new MutationObserver(() => {
       const elDialog = el.querySelector('.el-dialog')
 
@@ -39,7 +59,7 @@ const vResize = {
 const attrs = useAttrs()
 const slots = useSlots()
 const getBindValue = computed(() => {
-  const delArr: string[] = ['maxHeight', 'width']
+  const delArr = ['maxHeight', 'width']
   const obj = Object.assign({}, { ...unref(attrs), ...props })
   for (const key in obj) {
     if (delArr.indexOf(key) !== -1) {

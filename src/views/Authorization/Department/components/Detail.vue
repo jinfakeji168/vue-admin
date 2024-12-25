@@ -1,15 +1,13 @@
-<script setup lang="ts">
-import { PropType } from 'vue'
-import { DepartmentItem } from '@/api/department/types'
-import { Descriptions, DescriptionsSchema } from '@/components/Descriptions'
+<script setup>
+import { Descriptions } from '@/components/Descriptions'
 
 defineProps({
   currentRow: {
-    type: Object as PropType<Nullable<DepartmentItem>>,
+    type: Object,
     default: () => null
   },
   detailSchema: {
-    type: Array as PropType<DescriptionsSchema[]>,
+    type: Array,
     default: () => []
   }
 })

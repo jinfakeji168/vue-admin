@@ -1,4 +1,4 @@
-<script lang="tsx">
+<script lang="jsx">
 import { defineComponent, computed } from 'vue'
 import { Collapse } from '@/components/Collapse'
 import { LocaleDropdown } from '@/components/LocaleDropdown'
@@ -35,7 +35,7 @@ const locale = computed(() => appStore.getLocale)
 
 export default defineComponent({
   name: 'ToolHeader',
-  setup() {
+  setup () {
     return () => (
       <div
         id={`${variables.namespace}-tool-header`}

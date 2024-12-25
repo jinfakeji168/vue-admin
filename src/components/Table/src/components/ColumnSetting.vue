@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import {
   ElDrawer,
   ElCheckbox,
@@ -7,41 +7,40 @@ import {
   ElRadioButton,
   ElRadioGroup
 } from 'element-plus'
-import { TableColumn } from '../types'
-import { PropType, ref, watch, unref } from 'vue'
+import { ref, watch, unref } from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { DEFAULT_FILTER_COLUMN } from '@/constants'
 import { VueDraggable } from 'vue-draggable-plus'
 
-const modelValue = defineModel<boolean>()
+const modelValue = defineModel()
 
 const props = defineProps({
   columns: {
-    type: Array as PropType<TableColumn[]>,
+    type: Array,
     default: () => []
   }
 })
 
 const emit = defineEmits(['confirm'])
 
-const oldColumns = ref<TableColumn[]>()
+const oldColumns = ref()
 
-const settingColumns = ref<TableColumn[]>()
+const settingColumns = ref()
 
 // 存储不要的列
-const hiddenColumns = ref<TableColumn[]>([])
+const hiddenColumns = ref([])
 
-const defaultCheckColumns = ref<string[]>([])
-const checkColumns = ref<string[]>([])
+const defaultCheckColumns = ref([])
+const checkColumns = ref([])
 
 const checkAll = ref(false)
 const isIndeterminate = ref(true)
-const handleCheckAllChange = (val: boolean) => {
+const handleCheckAllChange = (val) => {
   checkColumns.value = val ? unref(defaultCheckColumns) : []
   isIndeterminate.value = false
 }
 
-const handleCheckedColumnsChange = (value: string[]) => {
+const handleCheckedColumnsChange = (value) => {
   const checkedCount = value.length
   checkAll.value = checkedCount === unref(defaultCheckColumns)?.length
   isIndeterminate.value = checkedCount > 0 && checkedCount < unref(defaultCheckColumns)?.length
@@ -62,7 +61,7 @@ const restore = () => {
   initColumns([...unref(hiddenColumns), ...(unref(oldColumns) || [])], true)
 }
 
-const initColumns = (columns: TableColumn[], isReStore = false) => {
+const initColumns = (columns, isReStore = false) => {
   const newColumns = columns?.filter((item) => {
     if (!isReStore) {
       item.fixed = item.fixed !== void 0 ? item.fixed : undefined
@@ -107,32 +106,15 @@ watch(
     <div>
       <div class="flex items-center justify-between">
         <div class="flex items-center justify-between">
-          <ElCheckbox
-            v-model="checkAll"
-            :indeterminate="isIndeterminate"
-            @change="handleCheckAllChange"
-          />
+          <ElCheckbox v-model="checkAll" :indeterminate="isIndeterminate" @change="handleCheckAllChange" />
           <ElText class="ml-8px!">{{ checkColumns.length }} / {{ settingColumns?.length }}</ElText>
         </div>
         <ElText>固定 / 排序</ElText>
       </div>
       <div v-if="settingColumns?.length">
-        <VueDraggable
-          v-model="settingColumns"
-          target=".el-checkbox-group"
-          handle=".handle"
-          :animation="150"
-        >
-          <ElCheckboxGroup
-            ref="draggableWrap"
-            v-model="checkColumns"
-            @change="handleCheckedColumnsChange"
-          >
-            <div
-              v-for="item in settingColumns"
-              :key="item.field"
-              class="flex items-center justify-between mt-12px"
-            >
+        <VueDraggable v-model="settingColumns" target=".el-checkbox-group" handle=".handle" :animation="150">
+          <ElCheckboxGroup ref="draggableWrap" v-model="checkColumns" @change="handleCheckedColumnsChange">
+            <div v-for="item in settingColumns" :key="item.field" class="flex items-center justify-between mt-12px">
               <ElCheckbox :label="item.field">
                 {{ item.label }}
               </ElCheckbox>
@@ -149,7 +131,9 @@ watch(
                   </ElRadioButton>
                 </ElRadioGroup>
 
-                <div class="ml-12px cursor-move handle"><Icon icon="vi-ep:rank" /></div>
+                <div class="ml-12px cursor-move handle">
+                  <Icon icon="vi-ep:rank" />
+                </div>
               </div>
             </div>
           </ElCheckboxGroup>

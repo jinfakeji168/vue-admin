@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ContentWrap } from '@/components/ContentWrap'
 import { useI18n } from '@/hooks/web/useI18n'
 import { useGuide } from '@/hooks/web/useGuide'

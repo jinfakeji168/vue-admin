@@ -1,7 +1,6 @@
-<script setup lang="ts">
+<script setup>
 import { Icon } from '@/components/Icon'
 import { useFullscreen } from '@vueuse/core'
-import { propTypes } from '@/utils/propTypes'
 import { useDesign } from '@/hooks/web/useDesign'
 
 const { getPrefixCls } = useDesign()
@@ -9,7 +8,10 @@ const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('screenfull')
 
 defineProps({
-  color: propTypes.string.def('')
+  color: {
+    type: String,
+    default: ''
+  }
 })
 
 const { toggle, isFullscreen } = useFullscreen()
@@ -21,10 +23,6 @@ const toggleFullscreen = () => {
 
 <template>
   <div :class="prefixCls" @click="toggleFullscreen">
-    <Icon
-      :size="18"
-      :icon="isFullscreen ? 'vi-zmdi:fullscreen-exit' : 'vi-zmdi:fullscreen'"
-      :color="color"
-    />
+    <Icon :size="18" :icon="isFullscreen ? 'vi-zmdi:fullscreen-exit' : 'vi-zmdi:fullscreen'" :color="color" />
   </div>
 </template>

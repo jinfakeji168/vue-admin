@@ -1,4 +1,4 @@
-<script setup lang="tsx">
+<script setup lang="jsx">
 import { ContentWrap } from '@/components/ContentWrap'
 import { ref, unref } from 'vue'
 import { ElDivider, ElRow, ElCol } from 'element-plus'

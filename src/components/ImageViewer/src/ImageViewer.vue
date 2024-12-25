@@ -1,23 +1,40 @@
-<script setup lang="ts">
+<script setup>
 import { ElImageViewer } from 'element-plus'
-import { computed, ref, PropType } from 'vue'
-import { propTypes } from '@/utils/propTypes'
+import { computed, ref } from 'vue'
 
 const props = defineProps({
   urlList: {
-    type: Array as PropType<string[]>,
-    default: (): string[] => []
+    type: Array,
+    default: () => []
   },
-  zIndex: propTypes.number.def(200),
-  initialIndex: propTypes.number.def(0),
-  infinite: propTypes.bool.def(true),
-  hideOnClickModal: propTypes.bool.def(false),
-  teleported: propTypes.bool.def(false),
-  show: propTypes.bool.def(false)
+  zIndex: {
+    type: Number,
+    default: 200
+  },
+  initialIndex: {
+    type: Number,
+    default: 0
+  },
+  infinite: {
+    type: Boolean,
+    default: true
+  },
+  hideOnClickModal: {
+    type: Boolean,
+    default: false
+  },
+  teleported: {
+    type: Boolean,
+    default: false
+  },
+  show: {
+    type: Boolean,
+    default: false
+  }
 })
 
 const getBindValue = computed(() => {
-  const propsData: Recordable = { ...props }
+  const propsData = { ...props }
   delete propsData.show
   return propsData
 })

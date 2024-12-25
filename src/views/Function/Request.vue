@@ -1,14 +1,14 @@
-<script lang="ts" setup>
+<script setup>
 import { ContentWrap } from '@/components/ContentWrap'
 import { useI18n } from '@/hooks/web/useI18n'
 import { ElDivider } from 'element-plus'
 import { request1, request2, request3, request4, request5, expired } from '@/api/request'
 import { ref } from 'vue'
-import request from '@/axios'
+import request from '@/api'
 
 const { t } = useI18n()
 
-const pending = ref<Set<string>>(new Set())
+const pending = ref(new Set())
 
 const getRequest1 = async () => {
   if (pending.value.has('/request/1')) {
@@ -99,8 +99,8 @@ const cancelAll = () => {
 }
 
 // set转数组
-const setToArray = (set: Set<string>) => {
-  const arr: string[] = []
+const setToArray = (set) => {
+  const arr = []
   set.forEach((item) => {
     arr.push(item)
   })

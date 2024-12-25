@@ -1,0 +1,17 @@
+import request from '@/api'
+
+export const getCountApi = () => {
+  return request.get({ url: '/mock/analysis/total' })
+}
+
+export const getUserAccessSourceApi = () => {
+  return request.get({ url: '/mock/analysis/userAccessSource' })
+}
+
+export const getWeeklyUserActivityApi = () => {
+  return request.get({ url: '/mock/analysis/weeklyUserActivity' })
+}
+
+export const getMonthlySalesApi = () => {
+  return request.get({ url: '/mock/analysis/monthlySales' })
+}

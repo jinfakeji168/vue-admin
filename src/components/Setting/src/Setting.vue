@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ElDrawer, ElDivider, ElMessage } from 'element-plus'
 import { ref, unref } from 'vue'
 import { useI18n } from '@/hooks/web/useI18n'
@@ -28,7 +28,7 @@ const drawer = ref(false)
 // 主题色相关
 const systemTheme = ref(appStore.getTheme.elColorPrimary)
 
-const setSystemTheme = (color: string) => {
+const setSystemTheme = (color) => {
   setCssVar('--el-color-primary', color)
   appStore.setTheme({ elColorPrimary: color })
   const leftMenuBgColor = useCssVar('--left-menu-bg-color', document.documentElement)
@@ -38,14 +38,14 @@ const setSystemTheme = (color: string) => {
 // 头部主题相关
 const headerTheme = ref(appStore.getTheme.topHeaderBgColor || '')
 
-const setHeaderTheme = (color: string) => {
+const setHeaderTheme = (color) => {
   appStore.setHeaderTheme(color)
 }
 
 // 菜单主题相关
 const menuTheme = ref(appStore.getTheme.leftMenuBgColor || '')
 
-const setMenuTheme = (color: string) => {
+const setMenuTheme = (color) => {
   appStore.setMenuTheme(color)
 }
 
@@ -156,11 +156,9 @@ const themeChange = () => {
 </script>
 
 <template>
-  <div
-    :class="prefixCls"
+  <div :class="prefixCls"
     class="fixed top-[45%] right-0 w-40px h-40px flex items-center justify-center bg-[var(--el-color-primary)] cursor-pointer z-10"
-    @click="drawer = true"
-  >
+    @click="drawer = true">
     <Icon icon="vi-ant-design:setting-outlined" color="#fff" />
   </div>
 
@@ -180,9 +178,7 @@ const themeChange = () => {
 
       <!-- 系统主题 -->
       <ElDivider>{{ t('setting.systemTheme') }}</ElDivider>
-      <ColorRadioPicker
-        v-model="systemTheme"
-        :schema="[
+      <ColorRadioPicker v-model="systemTheme" :schema="[
           '#409eff',
           '#009688',
           '#536dfe',
@@ -191,15 +187,11 @@ const themeChange = () => {
           '#0096c7',
           '#9c27b0',
           '#ff9800'
-        ]"
-        @change="setSystemTheme"
-      />
+        ]" @change="setSystemTheme" />
 
       <!-- 头部主题 -->
       <ElDivider>{{ t('setting.headerTheme') }}</ElDivider>
-      <ColorRadioPicker
-        v-model="headerTheme"
-        :schema="[
+      <ColorRadioPicker v-model="headerTheme" :schema="[
           '#fff',
           '#151515',
           '#5172dc',
@@ -208,15 +200,11 @@ const themeChange = () => {
           '#394664',
           '#009688',
           '#383f45'
-        ]"
-        @change="setHeaderTheme"
-      />
+        ]" @change="setHeaderTheme" />
 
       <!-- 菜单主题 -->
       <ElDivider>{{ t('setting.menuTheme') }}</ElDivider>
-      <ColorRadioPicker
-        v-model="menuTheme"
-        :schema="[
+      <ColorRadioPicker v-model="menuTheme" :schema="[
           '#fff',
           '#001529',
           '#212121',
@@ -225,9 +213,7 @@ const themeChange = () => {
           '#383f45',
           '#001628',
           '#344058'
-        ]"
-        @change="setMenuTheme"
-      />
+        ]" @change="setMenuTheme" />
     </div>
 
     <!-- 界面显示 -->
@@ -238,7 +224,7 @@ const themeChange = () => {
     <div>
       <BaseButton type="primary" class="w-full" @click="copyConfig">{{
         t('setting.copy')
-      }}</BaseButton>
+        }}</BaseButton>
     </div>
     <div class="mt-5px">
       <BaseButton type="danger" class="w-full" @click="clear">

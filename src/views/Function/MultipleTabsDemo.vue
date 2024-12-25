@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ContentWrap } from '@/components/ContentWrap'
 import { ElInput } from 'element-plus'
 import { ref } from 'vue'
@@ -9,11 +9,13 @@ const { setTitle } = useTagsView()
 
 const { params } = useRoute()
 
-const val = ref(params.id as string)
+const val = ref(params.id)
 
 setTitle(`详情页-${val.value}`)
 </script>
 
 <template>
-  <ContentWrap> 获取参数： <ElInput v-model="val" /> </ContentWrap>
+  <ContentWrap> 获取参数：
+    <ElInput v-model="val" />
+  </ContentWrap>
 </template>

@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import PanelGroup from './components/PanelGroup.vue'
 import { ElRow, ElCol, ElCard, ElSkeleton } from 'element-plus'
 import { Echart } from '@/components/Echart'
@@ -10,25 +10,24 @@ import {
   getMonthlySalesApi
 } from '@/api/dashboard/analysis'
 import { set } from 'lodash-es'
-import { EChartsOption } from 'echarts'
 import { useI18n } from '@/hooks/web/useI18n'
 
 const { t } = useI18n()
 
 const loading = ref(true)
 
-const pieOptionsData = reactive<EChartsOption>(pieOptions) as EChartsOption
+const pieOptionsData = reactive(pieOptions)
 
 // 用户来源
 const getUserAccessSource = async () => {
-  const res = await getUserAccessSourceApi().catch(() => {})
+  const res = await getUserAccessSourceApi().catch(() => { })
   if (res) {
     set(
       pieOptionsData,
       'legend.data',
       res.data.map((v) => t(v.name))
     )
-    pieOptionsData!.series![0].data = res.data.map((v) => {
+    pieOptionsData.series[0].data = res.data.map((v) => {
       return {
         name: t(v.name),
         value: v.value
@@ -37,11 +36,11 @@ const getUserAccessSource = async () => {
   }
 }
 
-const barOptionsData = reactive<EChartsOption>(barOptions) as EChartsOption
+const barOptionsData = reactive(barOptions)
 
 // 周活跃量
 const getWeeklyUserActivity = async () => {
-  const res = await getWeeklyUserActivityApi().catch(() => {})
+  const res = await getWeeklyUserActivityApi().catch(() => { })
   if (res) {
     set(
       barOptionsData,
@@ -58,11 +57,11 @@ const getWeeklyUserActivity = async () => {
   }
 }
 
-const lineOptionsData = reactive<EChartsOption>(lineOptions) as EChartsOption
+const lineOptionsData = reactive(lineOptions)
 
 // 每月销售总额
 const getMonthlySales = async () => {
-  const res = await getMonthlySalesApi().catch(() => {})
+  const res = await getMonthlySalesApi().catch(() => { })
   if (res) {
     set(
       lineOptionsData,

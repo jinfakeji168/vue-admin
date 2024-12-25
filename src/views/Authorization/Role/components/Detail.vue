@@ -1,36 +1,36 @@
-<script setup lang="tsx">
-import { PropType, ref, unref, nextTick } from 'vue'
-import { Descriptions, DescriptionsSchema } from '@/components/Descriptions'
+<script setup lang="jsx">
+import { ref, unref, nextTick } from 'vue'
+import { Descriptions } from '@/components/Descriptions'
 import { ElTag, ElTree } from 'element-plus'
 import { findIndex } from '@/utils'
 import { getMenuListApi } from '@/api/menu'
 
 defineProps({
   currentRow: {
-    type: Object as PropType<any>,
+    type: Object,
     default: () => undefined
   }
 })
 
-const filterPermissionName = (value: string) => {
+const filterPermissionName = (value) => {
   const index = findIndex(unref(currentTreeData)?.permissionList || [], (item) => {
     return item.value === value
   })
   return (unref(currentTreeData)?.permissionList || [])[index].label ?? ''
 }
 
-const renderTag = (enable?: boolean) => {
+const renderTag = (enable) => {
   return <ElTag type={!enable ? 'danger' : 'success'}>{enable ? '启用' : '禁用'}</ElTag>
 }
 
-const treeRef = ref<typeof ElTree>()
+const treeRef = ref()
 
 const currentTreeData = ref()
-const nodeClick = (treeData: any) => {
+const nodeClick = (treeData) => {
   currentTreeData.value = treeData
 }
 
-const treeData = ref<any[]>([])
+const treeData = ref([])
 const getMenuList = async () => {
   const res = await getMenuListApi()
   if (res) {
@@ -40,7 +40,7 @@ const getMenuList = async () => {
 }
 getMenuList()
 
-const detailSchema = ref<DescriptionsSchema[]>([
+const detailSchema = ref([
   {
     field: 'roleName',
     label: '角色名称'
@@ -49,7 +49,7 @@ const detailSchema = ref<DescriptionsSchema[]>([
     field: 'status',
     label: '状态',
     slots: {
-      default: (data: any) => {
+      default: (data) => {
         return renderTag(data.status)
       }
     }
@@ -87,9 +87,9 @@ const detailSchema = ref<DescriptionsSchema[]>([
               </div>
               <div class="flex-1">
                 {unref(currentTreeData)
-                  ? unref(currentTreeData)?.meta?.permission?.map((v: string) => {
-                      return <ElTag class="ml-2 mt-2">{filterPermissionName(v)}</ElTag>
-                    })
+                  ? unref(currentTreeData)?.meta?.permission?.map((v) => {
+                    return <ElTag class="ml-2 mt-2">{filterPermissionName(v)}</ElTag>
+                  })
                   : null}
               </div>
             </div>

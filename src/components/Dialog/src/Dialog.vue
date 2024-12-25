@@ -1,20 +1,31 @@
-<script setup lang="ts">
+<script setup>
 import { ElDialog, ElScrollbar } from 'element-plus'
-import { propTypes } from '@/utils/propTypes'
 import { computed, useAttrs, ref, unref, useSlots, watch, nextTick } from 'vue'
 import { isNumber } from '@/utils/is'
 
 const slots = useSlots()
 
 const props = defineProps({
-  modelValue: propTypes.bool.def(false),
-  title: propTypes.string.def('Dialog'),
-  fullscreen: propTypes.bool.def(true),
-  maxHeight: propTypes.oneOfType([String, Number]).def('400px')
+  modelValue: {
+    type: Boolean,
+    default: false
+  },
+  title: {
+    type: String,
+    default: 'Dialog'
+  },
+  fullscreen: {
+    type: Boolean,
+    default: true
+  },
+  maxHeight: {
+    type: [String, Number],
+    default: '400px'
+  }
 })
 
 const getBindValue = computed(() => {
-  const delArr: string[] = ['fullscreen', 'title', 'maxHeight']
+  const delArr = ['fullscreen', 'title', 'maxHeight']
   const attrs = useAttrs()
   const obj = { ...attrs, ...props }
   for (const key in obj) {
@@ -35,7 +46,7 @@ const dialogHeight = ref(isNumber(props.maxHeight) ? `${props.maxHeight}px` : pr
 
 watch(
   () => isFullscreen.value,
-  async (val: boolean) => {
+  async (val) => {
     await nextTick()
     if (val) {
       const windowHeight = document.documentElement.offsetHeight
@@ -64,41 +75,19 @@ const dialogStyle = computed(() => {
 </script>
 
 <template>
-  <ElDialog
-    v-bind="getBindValue"
-    :fullscreen="isFullscreen"
-    destroy-on-close
-    lock-scroll
-    draggable
-    top="0"
-    :close-on-click-modal="false"
-    :show-close="false"
-  >
+  <ElDialog v-bind="getBindValue" :fullscreen="isFullscreen" destroy-on-close lock-scroll draggable top="0"
+    :close-on-click-modal="false" :show-close="false">
     <template #header="{ close }">
       <div class="flex justify-between items-center h-54px pl-15px pr-15px relative">
         <slot name="title">
           {{ title }}
         </slot>
-        <div
-          class="h-54px flex justify-between items-center absolute top-[50%] right-15px translate-y-[-50%]"
-        >
-          <Icon
-            v-if="fullscreen"
-            class="cursor-pointer is-hover !h-54px mr-10px"
-            :icon="
+        <div class="h-54px flex justify-between items-center absolute top-[50%] right-15px translate-y-[-50%]">
+          <Icon v-if="fullscreen" class="cursor-pointer is-hover !h-54px mr-10px" :icon="
               isFullscreen ? 'vi-radix-icons:exit-full-screen' : 'vi-radix-icons:enter-full-screen'
-            "
-            color="var(--el-color-info)"
-            hover-color="var(--el-color-primary)"
-            @click="toggleFull"
-          />
-          <Icon
-            class="cursor-pointer is-hover !h-54px"
-            icon="vi-ep:close"
-            hover-color="var(--el-color-primary)"
-            color="var(--el-color-info)"
-            @click="close"
-          />
+            " color="var(--el-color-info)" hover-color="var(--el-color-primary)" @click="toggleFull" />
+          <Icon class="cursor-pointer is-hover !h-54px" icon="vi-ep:close" hover-color="var(--el-color-primary)"
+            color="var(--el-color-info)" @click="close" />
         </div>
       </div>
     </template>

@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { CrudSchema, useCrudSchemas } from '@/hooks/web/useCrudSchemas'
+<script setup>
+import { useCrudSchemas } from '@/hooks/web/useCrudSchemas'
 import { useI18n } from '@/hooks/web/useI18n'
 import { reactive } from 'vue'
 import { JsonEditor } from '@/components/JsonEditor'
@@ -8,7 +8,7 @@ import { ElRow, ElCol } from 'element-plus'
 
 const { t } = useI18n()
 
-const crudSchemas = reactive<CrudSchema[]>([
+const crudSchemas = reactive([
   {
     field: 'selection',
     search: {

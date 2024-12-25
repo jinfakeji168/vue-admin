@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { useAppStore } from '@/store/modules/app'
 import { computed } from 'vue'
 import { useDesign } from '@/hooks/web/useDesign'
@@ -14,46 +14,34 @@ const layout = computed(() => appStore.getLayout)
 
 <template>
   <div :class="prefixCls" class="flex flex-wrap space-x-14px">
-    <div
-      :class="[
+    <div :class="[
         `${prefixCls}__classic`,
         'relative w-56px h-48px cursor-pointer bg-gray-300',
         {
           'is-acitve': layout === 'classic'
         }
-      ]"
-      @click="appStore.setLayout('classic')"
-    ></div>
-    <div
-      :class="[
+      ]" @click="appStore.setLayout('classic')"></div>
+    <div :class="[
         `${prefixCls}__top-left`,
         'relative w-56px h-48px cursor-pointer bg-gray-300',
         {
           'is-acitve': layout === 'topLeft'
         }
-      ]"
-      @click="appStore.setLayout('topLeft')"
-    ></div>
-    <div
-      :class="[
+      ]" @click="appStore.setLayout('topLeft')"></div>
+    <div :class="[
         `${prefixCls}__top`,
         'relative w-56px h-48px cursor-pointer bg-gray-300',
         {
           'is-acitve': layout === 'top'
         }
-      ]"
-      @click="appStore.setLayout('top')"
-    ></div>
-    <div
-      :class="[
+      ]" @click="appStore.setLayout('top')"></div>
+    <div :class="[
         `${prefixCls}__cut-menu`,
         'relative w-56px h-48px cursor-pointer bg-gray-300',
         {
           'is-acitve': layout === 'cutMenu'
         }
-      ]"
-      @click="appStore.setLayout('cutMenu')"
-    >
+      ]" @click="appStore.setLayout('cutMenu')">
       <div class="absolute h-full w-[33%] top-0 left-[10%] bg-gray-200"></div>
     </div>
   </div>

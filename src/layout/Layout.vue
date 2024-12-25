@@ -1,4 +1,4 @@
-<script lang="tsx">
+<script lang="jsx">
 import { computed, defineComponent, unref } from 'vue'
 import { useAppStore } from '@/store/modules/app'
 import { Backtop } from '@/components/Backtop'
@@ -44,7 +44,7 @@ const renderLayout = () => {
 
 export default defineComponent({
   name: 'Layout',
-  setup() {
+  setup () {
     return () => (
       <section class={[prefixCls, `${prefixCls}__${layout.value}`, 'w-[100%] h-[100%] relative']}>
         {mobile.value && !collapse.value ? (

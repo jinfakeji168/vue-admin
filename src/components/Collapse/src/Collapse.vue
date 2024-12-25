@@ -1,7 +1,6 @@
-<script setup lang="ts">
+<script setup>
 import { computed, unref } from 'vue'
 import { useAppStore } from '@/store/modules/app'
-import { propTypes } from '@/utils/propTypes'
 import { useDesign } from '@/hooks/web/useDesign'
 
 const { getPrefixCls } = useDesign()
@@ -9,7 +8,10 @@ const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('collapse')
 
 defineProps({
-  color: propTypes.string.def('')
+  color: {
+    type: String,
+    default: '.'
+  }
 })
 
 const appStore = useAppStore()
@@ -24,11 +26,7 @@ const toggleCollapse = () => {
 
 <template>
   <div :class="prefixCls" @click="toggleCollapse">
-    <Icon
-      :size="18"
-      :icon="collapse ? 'vi-ant-design:menu-unfold-outlined' : 'vi-ant-design:menu-fold-outlined'"
-      :color="color"
-      class="cursor-pointer"
-    />
+    <Icon :size="18" :icon="collapse ? 'vi-ant-design:menu-unfold-outlined' : 'vi-ant-design:menu-fold-outlined'"
+      :color="color" class="cursor-pointer" />
   </div>
 </template>

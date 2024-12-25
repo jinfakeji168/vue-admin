@@ -1,4 +1,4 @@
-<script lang="tsx">
+<script lang="jsx">
 import { usePermissionStore } from '@/store/modules/permission'
 import { useAppStore } from '@/store/modules/app'
 import { computed, unref, defineComponent, watch, ref, onMounted } from 'vue'
@@ -22,7 +22,7 @@ export default defineComponent({
   directives: {
     ClickOutside
   },
-  setup() {
+  setup () {
     const { push, currentRoute } = useRouter()
 
     const { t } = useI18n()
@@ -66,7 +66,7 @@ export default defineComponent({
 
     watch(
       () => routers.value,
-      (routers: AppRouteRecordRaw[]) => {
+      (routers) => {
         initTabMap(routers)
         filterMenusPath(routers, routers)
       },
@@ -80,7 +80,7 @@ export default defineComponent({
 
     watch(
       () => collapse.value,
-      (collapse: boolean) => {
+      (collapse) => {
         if (!collapse) {
           setTimeout(() => {
             showTitle.value = !collapse
@@ -101,7 +101,7 @@ export default defineComponent({
     const tabActive = ref('')
 
     // tab点击事件
-    const tabClick = (item: AppRouteRecordRaw) => {
+    const tabClick = (item) => {
       if (isUrl(item.path)) {
         window.open(item.path)
         return
@@ -130,7 +130,7 @@ export default defineComponent({
     }
 
     // 设置高亮
-    const isActive = (currentPath: string) => {
+    const isActive = (currentPath) => {
       const { path } = unref(currentRoute)
       if (tabPathMap[currentPath].includes(path)) {
         return true
@@ -165,10 +165,10 @@ export default defineComponent({
                   v.meta?.alwaysShow || (v?.children?.length && v?.children?.length > 1)
                     ? v
                     : {
-                        ...(v?.children && v?.children[0]),
-                        path: pathResolve(v.path, (v?.children && v?.children[0])?.path as string)
-                      }
-                ) as AppRouteRecordRaw
+                      ...(v?.children && v?.children[0]),
+                      path: pathResolve(v.path, (v?.children && v?.children[0])?.path)
+                    }
+                )
                 return (
                   <div
                     class={[

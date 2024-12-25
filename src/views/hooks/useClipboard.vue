@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ContentWrap } from '@/components/ContentWrap'
 import { useClipboard } from '@/hooks/web/useClipboard'
 import { ElInput } from 'element-plus'

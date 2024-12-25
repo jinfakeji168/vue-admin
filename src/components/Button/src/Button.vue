@@ -1,7 +1,7 @@
-<script setup lang="ts">
+<script setup>
 import { useDesign } from '@/hooks/web/useDesign'
-import { ElButton, ComponentSize, ButtonType } from 'element-plus'
-import { PropType, Component, computed, unref } from 'vue'
+import { ElButton } from 'element-plus'
+import { computed, unref } from 'vue'
 import { useAppStore } from '@/store/modules/app'
 
 const appStore = useAppStore()
@@ -14,11 +14,11 @@ const prefixCls = getPrefixCls('button')
 
 const props = defineProps({
   size: {
-    type: String as PropType<ComponentSize>,
+    type: Number,
     default: undefined
   },
   type: {
-    type: String as PropType<ButtonType>,
+    type: String,
     default: 'default'
   },
   disabled: {
@@ -54,11 +54,11 @@ const props = defineProps({
     default: false
   },
   loadingIcon: {
-    type: [String, Object] as PropType<String | Component>,
+    type: String,
     default: undefined
   },
   icon: {
-    type: [String, Object] as PropType<String | Component>,
+    type: String,
     default: undefined
   },
   autofocus: {
@@ -66,7 +66,7 @@ const props = defineProps({
     default: false
   },
   nativeType: {
-    type: String as PropType<'button' | 'submit' | 'reset'>,
+    type: String,
     default: 'button'
   },
   autoInsertSpace: {
@@ -82,7 +82,7 @@ const props = defineProps({
     default: false
   },
   tag: {
-    type: [String, Object] as PropType<String | Component>,
+    type: String,
     default: 'button'
   }
 })
@@ -107,13 +107,8 @@ const style = computed(() => {
 </script>
 
 <template>
-  <ElButton
-    :class="`${prefixCls} color-#fff`"
-    v-bind="{ ...props }"
-    :color="color"
-    :style="style"
-    @click="() => emits('click')"
-  >
+  <ElButton :class="`${prefixCls} color-#fff`" v-bind="{ ...props }" :color="color" :style="style"
+    @click="() => emits('click')">
     <slot></slot>
     <slot name="icon"></slot>
     <slot name="loading"></slot>

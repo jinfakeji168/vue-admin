@@ -1,26 +1,19 @@
-<script lang="tsx" setup>
-import { defineProps, defineEmits, ref, CSSProperties } from 'vue'
+<script lang="jsx" setup>
+import { defineProps, defineEmits, ref } from 'vue'
 import { ElTree } from 'element-plus'
+const props = defineProps({
+  data: Array,
+  treeProps: String,
+  width: String,
+  height: String
+})
+const emit = defineEmits('node-click', 'node-expand', 'node-collapse')
 
-interface TreeProps {
-  data: any[]
-  treeProps?: Record<string, any>
-  width?: string
-  height?: string
-}
-const props = defineProps<TreeProps>()
-
-const emit = defineEmits<{
-  (e: 'node-click', nodeData: any): void
-  (e: 'node-expand', nodeData: any): void
-  (e: 'node-collapse', nodeData: any): void
-}>()
-
-const treeContainer = ref<any>(null)
+const treeContainer = ref(null)
 const showTreeMenu = ref(false)
-const contextNode = ref<any>(null)
+const contextNode = ref(null)
 
-const menuStyle = ref<any>({})
+const menuStyle = ref({})
 
 const defaultWidth = '300px'
 const defaultHeight = '400px'
@@ -33,12 +26,12 @@ const closeTreeMenu = () => {
 }
 
 // 右键菜单事件处理函数
-const openTreeMenu = (event: MouseEvent, data: any, _node: any, _target: HTMLElement) => {
+const openTreeMenu = (event, data, _node, _target) => {
   contextNode.value = data
   if (!treeContainer.value) return
 
   const containerRect = treeContainer.value.getBoundingClientRect()
-  const nodeRect = (event.target as HTMLElement).getBoundingClientRect()
+  const nodeRect = (event.target).getBoundingClientRect()
 
   // 计算菜单相对于父容器定位的坐标
   const top = nodeRect.top - containerRect.top + treeContainer.value.scrollTop
@@ -58,25 +51,25 @@ const openTreeMenu = (event: MouseEvent, data: any, _node: any, _target: HTMLEle
 }
 
 // 节点点击事件
-const handleNodeClick = (data: any) => {
+const handleNodeClick = (data) => {
   emit('node-click', data)
   closeTreeMenu()
 }
 
 // 节点展开事件
-const handleNodeExpand = (data: any) => {
+const handleNodeExpand = (data) => {
   emit('node-expand', data)
   closeTreeMenu()
 }
 
 // 节点关闭事件
-const handleNodeCollapse = (data: any) => {
+const handleNodeCollapse = (data) => {
   emit('node-collapse', data)
   closeTreeMenu()
 }
 
 // 计算容器样式
-const containerStyle: CSSProperties = {
+const containerStyle = {
   position: 'relative',
   overflow: 'auto',
   width: props.width ?? defaultWidth,
@@ -85,14 +78,8 @@ const containerStyle: CSSProperties = {
 </script>
 <template>
   <div class="tree-container" ref="treeContainer" :style="containerStyle">
-    <ElTree
-      v-bind="treeProps"
-      :data="data"
-      @node-click="handleNodeClick"
-      @node-expand="handleNodeExpand"
-      @node-collapse="handleNodeCollapse"
-      @node-contextmenu="openTreeMenu"
-    >
+    <ElTree v-bind="treeProps" :data="data" @node-click="handleNodeClick" @node-expand="handleNodeExpand"
+      @node-collapse="handleNodeCollapse" @node-contextmenu="openTreeMenu">
       <template #default="{ node }">
         <!-- 如果使用者提供了 render-node slot，则渲染使用者的内容 -->
         <template v-if="$slots['render-node']">

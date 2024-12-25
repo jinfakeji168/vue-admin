@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import { ContentWrap } from '@/components/ContentWrap'
 import { useNetwork } from '@/hooks/web/useNetwork'
 

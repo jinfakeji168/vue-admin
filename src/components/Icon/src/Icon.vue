@@ -1,7 +1,18 @@
-<script setup lang="ts">
+<template>
+  <ElIcon :class="prefixCls" :size="size" :color="color">
+    <svg v-if="isLocal" aria-hidden="true">
+      <use :xlink:href="symbolId" />
+    </svg>
+
+    <template v-else>
+      <Icon v-if="isUseOnline" :icon="getIconName" :style="getIconifyStyle" />
+      <div v-else :class="`${icon} iconify`" :style="getIconifyStyle"></div>
+    </template>
+  </ElIcon>
+</template>
+<script setup>
 import { computed, unref } from 'vue'
 import { ElIcon } from 'element-plus'
-import { propTypes } from '@/utils/propTypes'
 import { useDesign } from '@/hooks/web/useDesign'
 import { Icon } from '@iconify/vue'
 import { ICON_PREFIX } from '@/constants'
@@ -12,12 +23,21 @@ const prefixCls = getPrefixCls('icon')
 
 const props = defineProps({
   // icon name
-  icon: propTypes.string,
+  icon: {
+    type: String
+  },
   // icon color
-  color: propTypes.string,
+  color: {
+    type: String
+  },
   // icon size
-  size: propTypes.number.def(16),
-  hoverColor: propTypes.string
+  size: {
+    type: Number,
+    default: 16
+  },
+  hoverColor: {
+    type: String
+  },
 })
 
 const isLocal = computed(() => props.icon.startsWith('svg-icon:'))
@@ -44,18 +64,6 @@ const getIconName = computed(() => {
 })
 </script>
 
-<template>
-  <ElIcon :class="prefixCls" :size="size" :color="color">
-    <svg v-if="isLocal" aria-hidden="true">
-      <use :xlink:href="symbolId" />
-    </svg>
-
-    <template v-else>
-      <Icon v-if="isUseOnline" :icon="getIconName" :style="getIconifyStyle" />
-      <div v-else :class="`${icon} iconify`" :style="getIconifyStyle"></div>
-    </template>
-  </ElIcon>
-</template>
 
 <style lang="less" scoped>
 @prefix-cls: ~'@{adminNamespace}-icon';

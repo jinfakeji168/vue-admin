@@ -1,10 +1,8 @@
-<script lang="tsx">
+<script lang="jsx">
 import { ElCollapseTransition, ElTooltip, ElRow, ElCol } from 'element-plus'
 import { useDesign } from '@/hooks/web/useDesign'
-import { propTypes } from '@/utils/propTypes'
-import { ref, unref, PropType, computed, defineComponent } from 'vue'
+import { ref, unref, computed, defineComponent } from 'vue'
 import { useAppStore } from '@/store/modules/app'
-import { DescriptionsSchema } from './types'
 import { Icon } from '@/components/Icon'
 import { get } from 'lodash-es'
 
@@ -21,26 +19,50 @@ const defaultData = '-'
 export default defineComponent({
   name: 'Descriptions',
   props: {
-    title: propTypes.string.def(''),
-    message: propTypes.string.def(''),
-    collapse: propTypes.bool.def(true),
-    border: propTypes.bool.def(true),
-    column: propTypes.number.def(2),
-    size: propTypes.oneOf(['large', 'default', 'small']).def('default'),
-    direction: propTypes.oneOf(['horizontal', 'vertical']).def('horizontal'),
-    extra: propTypes.string.def(''),
+    title: {
+      type: String,
+      default: ''
+    },
+    message: {
+      type: String,
+      default: ''
+    },
+    collapse: {
+      type: Boolean,
+      default: true
+    },
+    border: {
+      type: Boolean,
+      default: true
+    },
+    column: {
+      type: Number,
+      default: 2
+    },
+    size: {
+      type: String,
+      default: 'default'
+    },
+    direction: {
+      type: String,
+      default: 'horizontal'
+    },
+    extra: {
+      type: String,
+      default: ''
+    },
     schema: {
-      type: Array as PropType<DescriptionsSchema[]>,
+      type: Array,
       default: () => []
     },
     data: {
-      type: Object as PropType<any>,
+      type: Object,
       default: () => ({})
     }
   },
-  setup(props, { attrs }) {
-    const getBindValue = computed((): any => {
-      const delArr: string[] = ['title', 'message', 'collapse', 'schema', 'data', 'class']
+  setup (props, { attrs }) {
+    const getBindValue = computed(() => {
+      const delArr = ['title', 'message', 'collapse', 'schema', 'data', 'class']
       const obj = { ...attrs, ...props }
       for (const key in obj) {
         if (delArr.indexOf(key) !== -1) {
@@ -53,8 +75,8 @@ export default defineComponent({
       return obj
     })
 
-    const getBindItemValue = (item: DescriptionsSchema) => {
-      const delArr: string[] = ['field']
+    const getBindItemValue = (item) => {
+      const delArr = ['field']
       const obj = { ...item }
       for (const key in obj) {
         if (delArr.indexOf(key) !== -1) {
@@ -193,5 +215,4 @@ export default defineComponent({
 //   :deep(.@{elNamespace}-descriptions__cell) {
 //     width: 0;
 //   }
-// }
-</style>
+// }</style>

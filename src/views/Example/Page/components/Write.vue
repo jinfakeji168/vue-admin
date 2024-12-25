@@ -1,17 +1,15 @@
-<script setup lang="ts">
-import { Form, FormSchema } from '@/components/Form'
+<script setup>
+import { Form } from '@/components/Form'
 import { useForm } from '@/hooks/web/useForm'
-import { PropType, reactive, watch } from 'vue'
-import { TableData } from '@/api/table/types'
+import { reactive, watch } from 'vue'
 import { useI18n } from '@/hooks/web/useI18n'
 import { useValidator } from '@/hooks/web/useValidator'
-import { IDomEditor } from '@wangeditor/editor'
 
 const { required } = useValidator()
 
 const props = defineProps({
   currentRow: {
-    type: Object as PropType<Nullable<TableData>>,
+    type: Object,
     default: () => null
   }
 })
@@ -21,7 +19,7 @@ const { t } = useI18n()
 const { formRegister, formMethods } = useForm()
 const { setValues, getFormData, getElFormExpose, setSchema } = formMethods
 
-const schema = reactive<FormSchema[]>([
+const schema = reactive([
   {
     field: 'title',
     label: t('exampleDemo.title'),
@@ -95,7 +93,7 @@ const schema = reactive<FormSchema[]>([
     componentProps: {
       defaultHtml: '',
       // @ts-ignore
-      onChange: (edit: IDomEditor) => {
+      onChange: (edit) => {
         setValues({
           content: edit.getHtml()
         })

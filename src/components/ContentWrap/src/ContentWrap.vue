@@ -1,6 +1,5 @@
-<script setup lang="ts">
+<script setup>
 import { ElCard, ElTooltip } from 'element-plus'
-import { propTypes } from '@/utils/propTypes'
 import { useDesign } from '@/hooks/web/useDesign'
 
 const { getPrefixCls } = useDesign()
@@ -8,8 +7,14 @@ const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('content-wrap')
 
 defineProps({
-  title: propTypes.string.def(''),
-  message: propTypes.string.def('')
+  title: {
+    type: String,
+    default: ""
+  },
+  message: {
+    type: String,
+    default: ""
+  }
 })
 </script>
 

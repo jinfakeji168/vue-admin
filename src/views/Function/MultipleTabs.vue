@@ -1,10 +1,10 @@
-<script setup lang="ts">
+<script setup>
 import { ContentWrap } from '@/components/ContentWrap'
 import { useRouter } from 'vue-router'
 
 const { push } = useRouter()
 
-const openTab = (item: number) => {
+const openTab = (item) => {
   push(`/function/multiple-tabs-demo/${item}`)
 }
 </script>

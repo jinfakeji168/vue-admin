@@ -1,7 +1,6 @@
-<script setup lang="ts">
+<script setup>
 import { provide, computed, watch, onMounted } from 'vue'
-import { propTypes } from '@/utils/propTypes'
-import { ComponentSize, ElConfigProvider } from 'element-plus'
+import { ElConfigProvider } from 'element-plus'
 import { useLocaleStore } from '@/store/modules/locale'
 import { useWindowSize } from '@vueuse/core'
 import { useAppStore } from '@/store/modules/app'
@@ -12,8 +11,11 @@ const { variables } = useDesign()
 
 const appStore = useAppStore()
 
-const props = defineProps({
-  size: propTypes.oneOf<ComponentSize>(['default', 'small', 'large']).def('default')
+const props = defineProps({//'default', 'small', 'large'
+  size: {
+    type: String,
+    default: "default"
+  }
 })
 
 provide('configGlobal', props)
@@ -28,7 +30,7 @@ const { width } = useWindowSize()
 // 监听窗口变化
 watch(
   () => width.value,
-  (width: number) => {
+  (width) => {
     if (width < 768) {
       !appStore.getMobile ? appStore.setMobile(true) : undefined
       setCssVar('--left-menu-min-width', '0')
@@ -51,12 +53,8 @@ const currentLocale = computed(() => localeStore.currentLocale)
 </script>
 
 <template>
-  <ElConfigProvider
-    :namespace="variables.elNamespace"
-    :locale="currentLocale.elLocale"
-    :message="{ max: 1 }"
-    :size="size"
-  >
+  <ElConfigProvider :namespace="variables.elNamespace" :locale="currentLocale.elLocale" :message="{ max: 1 }"
+    :size="size">
     <slot></slot>
   </ElConfigProvider>
 </template>

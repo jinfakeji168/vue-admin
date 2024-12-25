@@ -1,19 +1,18 @@
-<script setup lang="ts">
-import { Form, FormSchema } from '@/components/Form'
+<script setup>
+import { Form } from '@/components/Form'
 import { useForm } from '@/hooks/web/useForm'
-import { PropType, reactive, watch } from 'vue'
+import { reactive, watch } from 'vue'
 import { useValidator } from '@/hooks/web/useValidator'
-import { DepartmentItem } from '@/api/department/types'
 
 const { required } = useValidator()
 
 const props = defineProps({
   currentRow: {
-    type: Object as PropType<Nullable<DepartmentItem>>,
+    type: Object,
     default: () => null
   },
   formSchema: {
-    type: Array as PropType<FormSchema[]>,
+    type: Array,
     default: () => []
   }
 })

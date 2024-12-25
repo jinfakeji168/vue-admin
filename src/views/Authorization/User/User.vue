@@ -47,21 +47,20 @@
     </Dialog>
   </div>
 </template>
-<script setup lang="tsx">
+<script setup lang="jsx">
 import { ContentWrap } from '@/components/ContentWrap'
 import { useI18n } from '@/hooks/web/useI18n'
 import { Table } from '@/components/Table'
 import { ref, unref, nextTick, watch, reactive } from 'vue'
 import { ElTree, ElInput, ElDivider } from 'element-plus'
 import { getDepartmentApi, getUserByIdApi, saveUserApi, deleteUserByIdApi } from '@/api/department'
-import type { DepartmentItem, DepartmentUserItem } from '@/api/department/types'
 import { useTable } from '@/hooks/web/useTable'
 import { Search } from '@/components/Search'
 import Write from './components/Write.vue'
 import Detail from './components/Detail.vue'
 import { Dialog } from '@/components/Dialog'
 import { getRoleListApi } from '@/api/role'
-import { CrudSchema, useCrudSchemas } from '@/hooks/web/useCrudSchemas'
+import { useCrudSchemas } from '@/hooks/web/useCrudSchemas'
 import { BaseButton } from '@/components/Button'
 
 const { t } = useI18n()
@@ -88,7 +87,7 @@ const { tableRegister, tableState, tableMethods } = useTable({
 const { total, loading, dataList, pageSize, currentPage } = tableState
 const { getList, getElTableExpose, delList } = tableMethods
 
-const crudSchemas = reactive<CrudSchema[]>([
+const crudSchemas = reactive([
   {
     field: 'selection',
     search: {
@@ -217,8 +216,8 @@ const crudSchemas = reactive<CrudSchema[]>([
     table: {
       width: 240,
       slots: {
-        default: (data: any) => {
-          const row = data.row as DepartmentUserItem
+        default: (data) => {
+          const row = data.row
           return (
             <>
               <BaseButton type="primary" onClick={() => action(row, 'edit')}>
@@ -241,16 +240,16 @@ const crudSchemas = reactive<CrudSchema[]>([
 const { allSchemas } = useCrudSchemas(crudSchemas)
 
 const searchParams = ref({})
-const setSearchParams = (params: any) => {
+const setSearchParams = (params) => {
   currentPage.value = 1
   searchParams.value = params
   getList()
 }
 
-const treeEl = ref<typeof ElTree>()
+const treeEl = ref()
 
 const currentNodeKey = ref('')
-const departmentList = ref<DepartmentItem[]>([])
+const departmentList = ref([])
 const fetchDepartment = async () => {
   const res = await getDepartmentApi()
   departmentList.value = res.data.list
@@ -265,18 +264,18 @@ const currentDepartment = ref('')
 watch(
   () => currentDepartment.value,
   (val) => {
-    unref(treeEl)!.filter(val)
+    unref(treeEl).filter(val)
   }
 )
 
-const currentChange = (data: DepartmentItem) => {
+const currentChange = (data) => {
   // if (data.children) return
   currentNodeKey.value = data.id
   currentPage.value = 1
   getList()
 }
 
-const filterNode = (value: string, data: DepartmentItem) => {
+const filterNode = (value, data) => {
   if (!value) return true
   return data.departmentName.includes(value)
 }
@@ -284,7 +283,7 @@ const filterNode = (value: string, data: DepartmentItem) => {
 const dialogVisible = ref(false)
 const dialogTitle = ref('')
 
-const currentRow = ref<DepartmentUserItem>()
+const currentRow = ref()
 const actionType = ref('')
 
 const AddAction = () => {
@@ -295,13 +294,13 @@ const AddAction = () => {
 }
 
 const delLoading = ref(false)
-const ids = ref<string[]>([])
+const ids = ref([])
 
-const delData = async (row?: DepartmentUserItem) => {
+const delData = async (row) => {
   const elTableExpose = await getElTableExpose()
   ids.value = row
     ? [row.id]
-    : elTableExpose?.getSelectionRows().map((v: DepartmentUserItem) => v.id) || []
+    : elTableExpose?.getSelectionRows().map((v) => v.id) || []
   delLoading.value = true
 
   await delList(unref(ids).length).finally(() => {
@@ -309,14 +308,14 @@ const delData = async (row?: DepartmentUserItem) => {
   })
 }
 
-const action = (row: DepartmentUserItem, type: string) => {
+const action = (row, type) => {
   dialogTitle.value = t(type === 'edit' ? 'exampleDemo.edit' : 'exampleDemo.detail')
   actionType.value = type
   currentRow.value = { ...row, department: unref(treeEl)?.getCurrentNode() || {} }
   dialogVisible.value = true
 }
 
-const writeRef = ref<ComponentRef<typeof Write>>()
+const writeRef = ref()
 
 const saveLoading = ref(false)
 

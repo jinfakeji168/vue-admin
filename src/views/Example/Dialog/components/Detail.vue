@@ -1,15 +1,13 @@
-<script setup lang="ts">
-import { PropType } from 'vue'
-import type { TableData } from '@/api/table/types'
-import { Descriptions, DescriptionsSchema } from '@/components/Descriptions'
+<script setup>
+import { Descriptions } from '@/components/Descriptions'
 
 defineProps({
   currentRow: {
-    type: Object as PropType<Nullable<TableData>>,
+    type: Object,
     default: () => null
   },
   detailSchema: {
-    type: Array as PropType<DescriptionsSchema[]>,
+    type: Array,
     default: () => []
   }
 })

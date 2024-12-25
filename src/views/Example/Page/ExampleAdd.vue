@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup>
 import Write from './components/Write.vue'
 import { ContentDetailWrap } from '@/components/ContentDetailWrap'
 import { ref, unref } from 'vue'
@@ -13,7 +13,7 @@ const { push, go } = useRouter()
 
 const { t } = useI18n()
 
-const writeRef = ref<ComponentRef<typeof Write>>()
+const writeRef = ref()
 
 const loading = ref(false)
 
@@ -23,7 +23,7 @@ const save = async () => {
   if (formData) {
     loading.value = true
     const res = await saveTableApi(formData)
-      .catch(() => {})
+      .catch(() => { })
       .finally(() => {
         loading.value = false
       })
@@ -43,8 +43,7 @@ const save = async () => {
       <BaseButton @click="go(-1)">
         {{ t('common.back') }}
       </BaseButton>
-      <BaseButton type="primary" :loading="loading" @click="save"
-        >{{ t('exampleDemo.save') }}
+      <BaseButton type="primary" :loading="loading" @click="save">{{ t('exampleDemo.save') }}
       </BaseButton>
     </template>
   </ContentDetailWrap>
