@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 
-export const useResize = (props?: { minHeightPx; minWidthPx; initHeight; initWidth }) => {
+export const useResize = (props) => {
   const {
     minHeightPx = 400,
     minWidthPx = window.innerWidth / 2,

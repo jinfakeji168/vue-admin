@@ -4,7 +4,6 @@ import { reactive, ref, onMounted, computed } from 'vue'
 import { useI18n } from '@/hooks/web/useI18n'
 import { ContentWrap } from '@/components/ContentWrap'
 import { useAppStore } from '@/store/modules/app'
-import { SelectOption, RadioOption, CheckboxOption } from '@/components/Form'
 import {
   ElOption,
   ElOptionGroup,

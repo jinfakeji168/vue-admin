@@ -5,7 +5,6 @@ import { QRCodeRenderersOptions } from 'qrcode'
 import { cloneDeep } from 'lodash-es'
 import { useDesign } from '@/hooks/web/useDesign'
 import { isString } from '@/utils/is'
-import { QrcodeLogo } from '@/components/Qrcode'
 
 const props = defineProps({
   // img 或者 canvas,img不支持logo嵌套

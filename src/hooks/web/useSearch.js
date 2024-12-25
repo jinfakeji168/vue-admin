@@ -1,5 +1,4 @@
 import { ref, unref, nextTick } from 'vue'
-import { SearchExpose, SearchProps } from '@/components/Search'
 
 export const useSearch = () => {
   // Search实例

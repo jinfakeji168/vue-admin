@@ -2,7 +2,8 @@ import { createI18n } from 'vue-i18n'
 import { useLocaleStoreWithOut } from '@/store/modules/locale'
 import { setHtmlPageLang } from './helper'
 
-export let i18n
+export let i18n = createI18n()
+console.log('i18n', i18n);
 
 const createI18nOptions = async () => {
   const localeStore = useLocaleStoreWithOut()
@@ -12,7 +13,7 @@ const createI18nOptions = async () => {
   const defaultLocal = await import(`../../locales/${locale.lang}.json`)
   console.log(defaultLocal);
 
-  const message = defaultLocal ?? {}
+  const message = defaultLocal.default ?? {}
 
   setHtmlPageLang(locale.lang)
 

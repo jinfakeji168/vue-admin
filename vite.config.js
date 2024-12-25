@@ -133,7 +133,7 @@ export default ({ command, mode }) => {
       cssTarget: ['chrome31']
     },
     server: {
-      port: 4000,
+      port: 4001,
       proxy: {
         // 选项写法
         '/api': {
